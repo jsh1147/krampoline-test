@@ -1,0 +1,63 @@
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
+
+import "./App.css";
+
+import AuthCheck from "./layouts/AuthCheck.jsx";
+import Layout from "./layouts/Layout.jsx";
+import Posts from "./pages/mentoring/Posts.jsx";
+import Post from "./pages/mentoring/Post.jsx";
+import Write from "./pages/mentoring/Write.jsx";
+import Edit from "./pages/mentoring/Edit.jsx";
+import Dashboard from "./pages/mentoring/Dashboard.jsx";
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route>
+      <Route index element={<Navigate to="watching/videos" />} />
+      <Route path="login" element={<h1>LogIn</h1>} />
+      <Route path="signup" element={<h1>SignUp</h1>} />
+      <Route element={<AuthCheck />}>
+        <Route path="interest" element={<h1>Interest</h1>} />
+      </Route>
+      <Route element={<Layout />}>
+        <Route path="watching/videos" element={<h1>Vidoes</h1>} />
+        <Route path="watching/video/:videoId" element={<h1>Video</h1>} />
+        <Route path="mentoring/posts" element={<Posts />} />
+        <Route path="mentoring/post/:postId" element={<Post />} />
+        <Route path="chatting/rooms" element={<h1>Rooms</h1>} />
+        <Route
+          path="chatting/roomprofile/:roomId"
+          element={<h1>RoomProfile</h1>}
+        />
+        <Route element={<AuthCheck />}>
+          <Route path="watching/history" element={<h1>History</h1>} />
+          <Route path="mentoring/write" element={<Write />} />
+          <Route path="mentoring/edit/:postId" element={<Edit />} />
+          <Route path="mentoring/dashboard" element={<Dashboard />} />
+          <Route path="chatting/room/:roomId" element={<h1>Room</h1>} />
+          <Route path="chatting/create" element={<h1>RoomCreate</h1>} />
+          <Route path="mypage/profile" element={<h1>Profile</h1>} />
+          <Route path="mypage/profile/fix" element={<h1>ProfileFix</h1>} />
+          <Route path="mypage/information" element={<h1>Information</h1>} />
+          <Route
+            path="mypage/information/fix"
+            element={<h1>InformationFix</h1>}
+          />
+        </Route>
+      </Route>
+      <Route path="*" element={<h1>NotFound</h1>} />
+    </Route>
+  )
+);
+
+function App() {
+  return <RouterProvider router={router} />;
+}
+
+export default App;
