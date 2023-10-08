@@ -7,6 +7,7 @@ const btnSize = {
   sm: "py-1 px-2 text-sm min-w-[4.5rem]",
   base: "py-2 px-4 text-base min-w-[6rem]",
   lg: "py-3 px-6 text-lg min-w-[7.5rem]",
+  xl: "py-4 px-8 text-xl min-w-[100%]",
 };
 
 const Button = ({ color, size, onClick, children }) => {

@@ -18,10 +18,10 @@ const Dropdown = ({ options, selected, onSelectedChange }) => {
         onClick={() => setIsOpen((prev) => !prev)}
       >
         <span>{selected}</span>
-        <span className="material-symbols-outlined"> expand_more </span>
+        <span className="material-symbols-outlined">expand_more</span>
       </div>
-      {isOpen ? (
-        <div className="flex flex-col gap-2 bg-green-100 w-full text-sm">
+      {isOpen && (
+        <div className="flex flex-col gap-2 bg-green-100 overflow-y-auto max-h-[200px] w-full text-sm">
           {options.map((option) => (
             <button
               key={option}
@@ -32,8 +32,6 @@ const Dropdown = ({ options, selected, onSelectedChange }) => {
             </button>
           ))}
         </div>
-      ) : (
-        <></>
       )}
     </div>
   );

@@ -64,11 +64,11 @@ const router = createBrowserRouter(
       </Route>
       <Route path="*" element={<h1>NotFound</h1>} />
     </Route>
-  )
+  ), { basename: import.meta.env.VITE_APP_PATH }
 );
 
-function App() {
+function Router() {
   return <RouterProvider router={router} />;
 }
 
-export default App;
+export default Router;

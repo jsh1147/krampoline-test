@@ -13,6 +13,7 @@ module.exports = {
         orange: "#F9BC60",
         white: "#FFFFFF",
         black: "#000000",
+        paragraph: "#475d5b",
       },
     },
   },
