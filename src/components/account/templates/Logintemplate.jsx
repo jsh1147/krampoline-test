@@ -19,7 +19,6 @@ const LoginTemplate = () => {
           </p>
         </div>
       </main>
-      <Footer />
     </>
   );
 };

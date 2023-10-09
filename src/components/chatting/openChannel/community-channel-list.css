@@ -1,0 +1,22 @@
+/*
+  Based on TailwindCSS recommendations,
+  consider using classes instead of the `@apply` directive
+  @see https://tailwindcss.com/docs/reusing-styles#avoiding-premature-abstraction
+*/
+.community-channel-list {
+  @apply w-[264px] h-full flex flex-col;
+}
+.community-channel-list .community-channel-list__list {
+  @apply h-full overflow-y-scroll flex-1;
+}
+.community-channel-list .community-channel-list__title {
+  @apply box-border text-lg font-semibold not-italic leading-[normal] tracking-[-0.2px] text-[color:var(--gray-0)] border-b-[color:var(--gray-1)] px-6 py-5 border-b border-solid;
+  font-stretch: normal;
+}
+.community-channel-list .community-channel-list__placeholder {
+  @apply w-[200px] h-4 text-center text-xs font-[normal] not-italic leading-[1.33] tracking-[normal] text-[color:var(--gray-2)] ml-8;
+  font-stretch: normal;
+}
+.community-channel-list .community-channel-list__footer {
+  @apply box-border flex p-4;
+}

@@ -6,18 +6,17 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import "./App.css";
-
-import AuthCheck from "./layouts/AuthCheck.jsx";
 import Layout from "./layouts/Layout.jsx";
+import AccountLayout from "./layouts/AccountLayout";
+import AuthCheck from "./layouts/AuthCheck.jsx";
 import Posts from "./pages/mentoring/Posts.jsx";
 import Post from "./pages/mentoring/Post.jsx";
 import Write from "./pages/mentoring/Write.jsx";
 import Edit from "./pages/mentoring/Edit.jsx";
 import Dashboard from "./pages/mentoring/Dashboard.jsx";
+import ChattingRoomsPage from "./pages/chatting/ChattingRoomsPage.jsx";
 import LoginPage from "./pages/account/LoginPage";
 import SignupPage from "./pages/account/SignupPage";
-import AccountLayout from "./layouts/AccountLayout";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -39,7 +38,7 @@ const router = createBrowserRouter(
         <Route path="watching/video/:videoId" element={<h1>Video</h1>} />
         <Route path="mentoring/posts" element={<Posts />} />
         <Route path="mentoring/post/:postId" element={<Post />} />
-        <Route path="chatting/rooms" element={<h1>Rooms</h1>} />
+        <Route path="chatting/rooms" element={<ChattingRoomsPage />} />
         <Route
           path="chatting/roomprofile/:roomId"
           element={<h1>RoomProfile</h1>}

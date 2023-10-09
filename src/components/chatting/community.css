@@ -1,0 +1,20 @@
+/*
+  Based on TailwindCSS recommendations,
+  consider using classes instead of the `@apply` directive
+  @see https://tailwindcss.com/docs/reusing-styles#avoiding-premature-abstraction
+*/
+.community-app {
+  @apply flex flex-row h-[99vh];
+}
+.community-app * {
+  font-family: var(--sendbird-font-family-default);
+}
+.community-app .community-app {
+  @apply flex-1;
+}
+.community-app .channel-list {
+  @apply bg-[color:var(--bg-0)] border-r-[color:var(--gray-1)] border-r border-solid;
+}
+.community-app .community-open-channel {
+  @apply flex-1 bg-[color:var(--bg-0)];
+}
