@@ -1,5 +1,4 @@
 import Title from "../atoms/Title";
-import Footer from "../../../layouts/Footer";
 import LoginForm from "../organisms/LoginForm";
 import LOGIN from "../constants/LOGIN";
 import { Link } from "react-router-dom";
@@ -15,6 +14,13 @@ const LoginTemplate = () => {
             No account yet?{" "}
             <Link to="/signup" className="text-sm font-bold ml-2 text-blue-900">
               Sign Up
+            </Link>
+          </p>
+
+          <p className="text-sm text-blue-900 ml-2 mt-2">
+            Later ! Go back to{" "}
+            <Link to="/" className="text-sm font-bold ml-2 text-blue-900">
+              Main
             </Link>
           </p>
         </div>

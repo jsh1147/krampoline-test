@@ -1,3 +1,5 @@
+import PostsSection from "../../components/mentoring/posts/PostsSection"
+
 export default function Posts() {
-  return <h1>Posts</h1>;
+  return <PostsSection />;
 }

@@ -1,51 +1,59 @@
-import { useState } from "react";
+import React from "react";
+import { useForm, FormProvider, Controller } from "react-hook-form";
 import InputBox from "../atoms/InputBox";
 import Button from "../../common/Button";
+import { useAtom } from "jotai";
+import { userAtom } from "../../../store";
 
-const LoginForm = ({ inputProps, inputGroup }) => {
-  // jotai로 전역상태만 관리
+const LoginForm = ({ inputProps }) => {
+  const methods = useForm();
+  const { watch, control, handleSubmit } = methods;
+  const email = watch("email");
+  const password = watch("password");
 
-  //핸들러는 hook으로 빼기
-  // const [email, setEmail] = useState("");
-  // const [pw, setPw] = useState("");
+  const [user, setUser] = useAtom(userAtom);
 
-  // const handleChange = (event) => {
-  //   const id = event.target.id;
-  //   if (id === "email") {
-  //     setEmail(event.target.value);
-  //     console.log(event.target.value);
-  //   }
-  //   if (id === "pw") {
-  //     setPw(event.target.value);
-  //     console.log(event.target.value);
-  //   }
-  // };
+  const onSubmit = (data) => {
+    console.log("Email:", email);
+    console.log("Password:", password);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+    setUser({ email, password });
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit}>
+    <FormProvider {...methods}>
+      <form onSubmit={methods.handleSubmit(onSubmit)}>
         <main className="max-w-[500px]">
-          {inputProps.map((props) => (
-            <InputBox
-              key={props.id}
-              id={props.id}
-              label={props.label}
-              type={props.type}
-              placeholder={props.placeholder}
+          {inputProps.map((inputField) => (
+            <Controller
+              name={inputField.name}
+              key={inputField.name}
+              control={methods.control}
+              defaultValue=""
+              rules={inputField.rules}
+              render={({ field, fieldState }) => (
+                <InputBox
+                  {...field}
+                  id={inputField.name}
+                  label={inputField.label}
+                  variant={inputField.variant}
+                  type={inputField.type}
+                  placeholder={inputField.placeholder}
+                  error={fieldState.invalid}
+                  helperText={
+                    fieldState.invalid ? fieldState.error.message : ""
+                  }
+                  triggerValidation={methods.trigger}
+                />
+              )}
             />
           ))}
-
-          <Button color="orange" size="xl">
+          <Button color="orange" size="xl" type="submit">
             Log In
           </Button>
         </main>
       </form>
-    </>
+    </FormProvider>
   );
 };
-
 export default LoginForm;

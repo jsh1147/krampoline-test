@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 
-import Footer from "./Footer.jsx";
+import Footer from "./Footer";
 
 export default function AccountLayout() {
   return (

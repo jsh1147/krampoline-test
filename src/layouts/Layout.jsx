@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 
-import Footer from "./Footer.jsx";
-import GNB from "./GNB.jsx";
+import Footer from "./Footer";
+import GNB from "./GNB";
 
 export default function Layout() {
   return (

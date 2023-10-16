@@ -12,7 +12,7 @@ const Dropdown = ({ options, selected, onSelectedChange }) => {
   };
 
   return (
-    <div className="w-[12rem] color-green-900" ref={outSideRef}>
+    <div className="w-[12rem] color-green-900 relative" ref={outSideRef}>
       <div
         className="flex w-full border-t-2 border-solid p-4 justify-between items-center border-green-700 font-semibold"
         onClick={() => setIsOpen((prev) => !prev)}
@@ -21,7 +21,7 @@ const Dropdown = ({ options, selected, onSelectedChange }) => {
         <span className="material-symbols-outlined">expand_more</span>
       </div>
       {isOpen && (
-        <div className="flex flex-col gap-2 bg-green-100 overflow-y-auto max-h-[200px] w-full text-sm">
+        <div className="flex flex-col gap-2 bg-green-100 overflow-y-auto max-h-[200px] w-full text-sm absolute top-full left-0 z-10">
           {options.map((option) => (
             <button
               key={option}
