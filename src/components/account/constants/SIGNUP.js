@@ -28,6 +28,21 @@ const SIGNUP = Object.freeze([
     },
   },
   {
+    name: "phone",
+    label: "Phone Number",
+    type: "text",
+    placeholder: "phone number",
+    variant: "filled",
+    rules: {
+      required: "The input box must not be empty.",
+      pattern: {
+        value: /^[0-9]{10,15}$/,
+        message:
+          "Phone number should only contain numbers and be 10-15 digits long.",
+      },
+    },
+  },
+  {
     name: "email",
     label: "Email",
     type: "email",
@@ -51,9 +66,9 @@ const SIGNUP = Object.freeze([
       required: "The input box must not be empty.",
       pattern: {
         value:
-          /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_+=])[a-zA-Z0-9!@#$%^&*()\-_+=]{8,20}$/,
+          /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@#$%^&+=!~`<>,./?;:'"\[\]{}\\()|_-])\S{8,16}$/,
         message:
-          "Password must be within 8-20, including all English case, numbers, and special characters.",
+          "Password must be within 8-16, including all English case, numbers, and special characters.",
       },
     },
   },

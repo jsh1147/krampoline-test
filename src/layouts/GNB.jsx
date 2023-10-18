@@ -1,17 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-
+import { userAtom, tokenAtom } from "../store/index";
+import { useAtom } from "jotai";
 import { navStructure } from "./navStructure";
 
 export default function GNB() {
+  const [token, setToken] = useAtom(tokenAtom);
+  const [user, setUser] = useAtom(userAtom);
+  const [auth, setAuth] = useState(false);
+
+  useEffect(() => {
+    if (token) {
+      setAuth(true);
+    } else {
+      setAuth(false);
+    }
+  }, [token]);
+
   const currentUrl = useLocation()
     .pathname.replace(/\d/, "")
     .replace(/^\/+|\/+$/g, "");
-
-  // 로그인 기능 생기기 전까지 임시 로그인 판단 방식
-  const [auth, setAuth] = useState(
-    window.localStorage.getItem("token") ? true : false
-  );
 
   // api 기능 생기기 전까지 임시 프로필 이미지 경로
   const profileImageUrl =
@@ -19,13 +27,10 @@ export default function GNB() {
 
   const handleLogOutClick = () => {
     window.localStorage.removeItem("token");
+    setUser("");
+    // setToken(null);
     setAuth(!!window.localStorage.getItem("token"));
-  };
-
-  const handleTestClick = () => {
-    if (auth) window.localStorage.removeItem("token");
-    else window.localStorage.setItem("token", "Bearer 1234");
-    setAuth(!!window.localStorage.getItem("token"));
+    window.location.reload();
   };
 
   return (
@@ -80,7 +85,7 @@ export default function GNB() {
           ) : (
             <Link
               className="pl-1 pr-2 py-[2px] bg-orange border-2 border-orange rounded"
-              to={"/login"}
+              to={"/users/login"}
             >
               <span className="flex items-center text-xs text-white">
                 <span className="material-symbols-outlined">login</span>
@@ -88,13 +93,6 @@ export default function GNB() {
               </span>
             </Link>
           )}
-          {/* 로그인 기능이 생기기 전까지 임시 로그인 */}
-          <div
-            className="px-2 py-1 bg-green-500 rounded text-xs text-white"
-            onClick={handleTestClick}
-          >
-            TEST
-          </div>
         </div>
       </div>
       {/* 하단 GNB(Nav) */}

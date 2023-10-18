@@ -27,12 +27,12 @@ const router = createBrowserRouter(
       <Route index element={<Navigate to="watching/videos" />} />
 
       <Route element={<AccountLayout />}>
-        <Route path="login" element={<LoginPage />} />
-        <Route path="signup" element={<SignupPage />} />
+        <Route path="/users/login" element={<LoginPage />} />
+        <Route path="/users/signup" element={<SignupPage />} />
       </Route>
 
       <Route element={<AuthCheck />}>
-        <Route path="interest" element={<h1>Interest</h1>} />
+        <Route path="/interest" element={<h1>Interest</h1>} />
       </Route>
 
       {/* 공통 레이아웃 */}

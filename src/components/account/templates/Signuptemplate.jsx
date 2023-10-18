@@ -12,7 +12,10 @@ const SignupTemplate = () => {
         <div className="mt-4">
           <p className="text-sm text-blue-900 ml-2">
             Already have an account?{" "}
-            <Link to="/login" className="text-sm font-bold ml-2 text-blue-900">
+            <Link
+              to="/users/login"
+              className="text-sm font-bold ml-2 text-blue-900"
+            >
               Log In
             </Link>
           </p>

@@ -23,9 +23,9 @@ const LOGIN = Object.freeze([
       required: "The input box must not be empty.",
       pattern: {
         value:
-          /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_+=])[a-zA-Z0-9!@#$%^&*()\-_+=]{8,20}$/,
+          /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@#$%^&+=!~`<>,./?;:'"\[\]{}\\()|_-])\S{8,16}$/,
         message:
-          "Password must be within 8-20, including all English case, numbers, and special characters.",
+          "Password must be within 8-16, including all English case, numbers, and special characters.",
       },
     },
   },
