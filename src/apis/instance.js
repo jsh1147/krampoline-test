@@ -29,7 +29,7 @@ instance.interceptors.response.use(
   },
   (error) => {
     if (error.response && error.response.status && error.message) {
-      const states = { 3: "Rredirect", 4: "Client", 5: "Server" };
+      const states = { 3: "Redirect", 4: "Client", 5: "Server" };
       const state = states[Math.floor(error.response.status / 100)];
       console.log(
         `[API RESPONSE ERROR] ${error.response.status}(${state}): ${error.message}`

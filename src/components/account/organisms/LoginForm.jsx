@@ -2,10 +2,13 @@ import React from "react";
 import { useForm, FormProvider, Controller } from "react-hook-form";
 import InputBox from "../atoms/InputBox";
 import Button from "../../common/Button";
-import { useAtom } from "jotai";
-import { userAtom, tokenAtom } from "../../../store";
 import { login } from "../../../apis/user";
 import { useNavigate } from "react-router-dom";
+import useLogin from "../hooks/useLogin";
+
+// 1. 리액트 쿼리
+// 2. 자동 로그인
+// 3. useForm hook 모듈화
 
 const LoginForm = ({ inputProps }) => {
   const navigate = useNavigate();
@@ -13,8 +16,7 @@ const LoginForm = ({ inputProps }) => {
   const { watch, control, handleSubmit } = methods;
   const email = watch("email");
   const password = watch("password");
-  const [token, setToken] = useAtom(tokenAtom);
-  const [user, setUser] = useAtom(userAtom);
+  const { loginUser } = useLogin();
 
   const onSubmit = async () => {
     try {
@@ -24,8 +26,7 @@ const LoginForm = ({ inputProps }) => {
       });
 
       if (response.data.success === true) {
-        setUser(response.data.user);
-        setToken(response.headers.authorization);
+        loginUser(response);
         console.log("login success");
         navigate("/");
       } else {

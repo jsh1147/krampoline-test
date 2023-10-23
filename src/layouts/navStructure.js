@@ -45,10 +45,13 @@ export const navStructure = [
     mainNav: "My Page",
     mainUrl: "mypage",
     sub: [
-      { subNav: "Profile", url: ["mypage/profile", "mypage/profile/fix"] },
+      {
+        subNav: "Profile",
+        url: ["mypage/profiles/:id", "mypage/profile/fix/:id"],
+      },
       {
         subNav: "Information",
-        url: ["mypage/information", "mypage/information/fix"],
+        url: ["mypage/information/:id", "mypage/information/fix/:id"],
       },
     ],
     subPadding: "pl-[20.7rem]",

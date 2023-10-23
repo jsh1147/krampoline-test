@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
-import Tag from "../../common/Tag"
-import FlagTag from "../../common/FlagTag";
+import Tag from "../../../components/common/Tag";
+import FlagTag from "../../../components/common/FlagTag";
 
 export default function PostCard({ post }) {
   return (
@@ -16,7 +16,7 @@ export default function PostCard({ post }) {
       ></img>
       <div className="w-full px-4 flex flex-col justify-center space-y-3">
         <span className="text-xl font-semibold">{post.title}</span>
-        <span className="text-sm text-gray-500">{post.writer.name}</span>
+        <span className="text-sm text-gray-500">{`${post.writer.firstName} ${post.writer.lastName}`}</span>
         <span>{post.summary}</span>
         <div className="flex items-center space-x-2">
           <FlagTag>{post.writer.country}</FlagTag>

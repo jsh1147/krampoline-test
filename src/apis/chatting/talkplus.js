@@ -1,4 +1,4 @@
-import { TEST_CHANNEL_ID, avatarUser } from "../../constants/chatting/chatting";
+import { v5 as uuid } from "uuid";
 
 // eslint-disable-next-line no-undef
 export const client = new TalkPlus.Client({
@@ -10,7 +10,7 @@ export const login = async () => {
     const { user } = await client.loginAnonymous({
       userId: "Admin",
       username: "테스트 이름",
-      profileImageUrl: "../images/user_0.png",
+      profileImageUrl: "https://picsum.photos/id/24/40",
     });
     return user;
   } catch (error) {
@@ -18,26 +18,37 @@ export const login = async () => {
   }
 };
 
-export const getChannels = async () => {
+export const getPublicChannels = async () => {
   try {
-    const { channels } = await client.getPublicChannels({ limit: 20 });
+    const { channels } = await client.getPublicChannels({ limit: 30 });
     return channels;
   } catch (error) {
     console.log(error);
+    return [];
   }
 };
 
-export const joinChannel = async () => {
+export const getJoinedChannels = async () => {
+  try {
+    const { channels } = await client.getChannels({ limit: 30 });
+    return channels;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
+export const joinChannel = async (channelId, channelName) => {
   try {
     const data = await client.joinChannel({
-      channelId: TEST_CHANNEL_ID,
+      channelId: channelId,
     });
     return data;
   } catch (error) {
     if (error.code === "2003") {
       await client.createChannel({
-        channelId: TEST_CHANNEL_ID,
-        name: TEST_CHANNEL_ID,
+        channelId: uuid(channelName, uuid.DNS),
+        name: channelName,
         type: "super_public",
         members: [],
       });
@@ -47,14 +58,21 @@ export const joinChannel = async () => {
   }
 };
 
-export const createChannel = async (newChannelId) => {
+export const createChannel = async (data) => {
+  console.log("createChannel");
+  const { name, imageUrl = "", content = "", category } = data;
   try {
     const data = await client.createChannel({
-      channelId: newChannelId, // required
-      name: newChannelId, // optional
-      type: "super_public", // required
-      reuseChannel: true, // default: false
-      hideMessagesBeforeJoin: true, // if true, users cannot see messages older than their channel join date
+      channelId: uuid(name, uuid.DNS),
+      name,
+      type: "super_public",
+      reuseChannel: true,
+      hideMessagesBeforeJoin: true,
+      imageUrl,
+      category,
+      data: {
+        content,
+      },
     });
     return data;
   } catch (error) {
@@ -62,10 +80,23 @@ export const createChannel = async (newChannelId) => {
   }
 };
 
-export const getMessages = async () => {
+export const leaveChannel = async (channelId) => {
+  try {
+    const data = await client.leaveChannel({
+      channelId: channelId,
+      deleteChannelIfEmpty: true,
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getMessages = async (channelId) => {
   try {
     const { messages } = await client.getMessages({
-      channelId: TEST_CHANNEL_ID,
+      channelId: channelId,
+      order: "oldest",
     });
     return messages;
   } catch (error) {
@@ -73,10 +104,10 @@ export const getMessages = async () => {
   }
 };
 
-export const addMessageText = async (messageText) => {
+export const addMessageText = async (channelId, messageText) => {
   try {
     const data = await client.sendMessage({
-      channelId: TEST_CHANNEL_ID,
+      channelId: channelId,
       type: "text",
       text: messageText,
     });

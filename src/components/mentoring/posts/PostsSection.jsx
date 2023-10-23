@@ -1,18 +1,17 @@
 import { useState, Suspense } from "react";
 import { Link } from "react-router-dom";
-import { atom, useAtomValue } from "jotai";
+import { useQuery } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
 
-import { useInputsRef } from "../../../hooks/useInputsRef"
+import { getUser } from "../../../apis/mentorPost";
+import { useInputsRef } from "../../../hooks/useInputsRef";
 
 import Error from "./Error";
 import Loader from "./PostCardSkeleton";
 import PostList from "./PostList";
 
-const mentorAtom = atom(true);
-
 export default function PostsSection() {
-  const isMentor = useAtomValue(mentorAtom);
+  const { data } = useQuery({ queryKey: ["user"], queryFn: getUser });
 
   const [searchValue, setSearchValue] = useState({
     category: "title",
@@ -34,7 +33,7 @@ export default function PostsSection() {
         <h1 className="inline-block text-4xl font-bold text-green-700">
           Mentoring List
         </h1>
-        {isMentor && (
+        {data.data.response.role === "mentor" && (
           <Link
             className="px-2 py-1 border-2 rounded-lg border-orange text-lg text-orange font-semibold"
             to="/mentoring/write"

@@ -4,9 +4,7 @@ export const mockUsers = {
     password: "password123!",
     firstName: "John",
     lastName: "Doe",
-    role: "user",
-    country: "US",
-    interest: null,
+    profileImage: null,
   },
 };
 

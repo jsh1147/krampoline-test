@@ -37,7 +37,6 @@ export default function PostList({ category, search }) {
         Array(3)
           .fill(null)
           .map((_, index) => <PostCardSkeleton key={`skeleton-${index}`} />)}
-      <PostCardSkeleton />
       <div ref={ref}></div>
     </div>
   );

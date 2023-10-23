@@ -39,6 +39,7 @@ export const register = (data) => {
 //   });
 // };
 
+// 백앤드 api 연결 전 까지 mock api 사용 - login
 export const login = async (data) => {
   await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -50,9 +51,7 @@ export const login = async (data) => {
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
-      role: user.role,
-      country: user.country,
-      interest: user.interest,
+      profileImage: user.profileImage,
     };
     return mockResponse({
       message: "Login successful",
@@ -65,4 +64,31 @@ export const login = async (data) => {
       success: false,
     });
   }
+};
+
+// export const getUser = () => {
+//   return instance.get("/getUser");
+// };
+
+// 백앤드 api 연결 전 까지 mock api 사용 - getUser
+export const getUser = async () => {
+  await new Promise((resolve) => setTimeout(resolve, 500));
+
+  const user = mockUsers["user@example.com"];
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const responseUser = {
+    email: user.email,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    profileImage: user.profileImage,
+  };
+
+  return {
+    message: "successful",
+    user: responseUser,
+    success: true,
+  };
 };

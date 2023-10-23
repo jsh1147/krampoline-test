@@ -3,7 +3,7 @@ import ReactCountryFlag from "react-country-flag";
 const FlagTag = ({ children }) => {
   return (
     <span
-      className={`py-1 px-2 bg-white border-2 border-black rounded-lg text-xs }`}
+      className={`py-[2.7px] px-2 bg-white border-2 border-black rounded-lg text-xs }`}
     >
       <ReactCountryFlag
         style={{

@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 
-export const useAuthCheck = (effect) => {
+export const useEffectOnce = (effect) => {
   const destroyFunc = useRef();
   const effectCalled = useRef(false);
   const renderAfterCalled = useRef(false);
