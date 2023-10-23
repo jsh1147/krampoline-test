@@ -8,9 +8,9 @@ import {
   userProfileImageUrlAtom,
 } from "../../store/chatting/chatting";
 import { login } from "../../apis/chatting/talkplus";
-import Tabs from "../../components/chatting/channelList/tabs";
+import Tabs from "../../components/chatting/channelList/Tabs";
 import { CHANNEL_TYPES } from "../../constants/chatting/chatting";
-import CreateChannelModal from "../../components/chatting/createChannelModal";
+import CreateChannelModal from "../../components/chatting/CreateChannelModal";
 
 const ChattingListPage = () => {
   const [channelType, setChannelType] = useState(CHANNEL_TYPES[0]);
