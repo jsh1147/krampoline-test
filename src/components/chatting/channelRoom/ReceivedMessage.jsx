@@ -19,7 +19,7 @@ const ReceivedMessage = ({ message }) => {
     : "./images/user_0.png";
 
   return (
-    <div className="flex gap-2 items-end py-2">
+    <div className="grid grid-cols-[3rem_1fr_6rem] gap-2 items-end py-2 w-fit max-w-[60%]">
       <div className="h-full pt-3">
         <img
           src={profileImageUrl}

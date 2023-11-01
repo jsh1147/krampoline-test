@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const SignupTemplate = () => {
   return (
     <>
-      <main className="justify-center items-center flex flex-col">
+      <main className="justify-center items-center flex flex-col mb-10">
         <Title className="mb-10">Sign Up</Title>
         <SignupForm inputProps={SIGNUP} />
         <div className="mt-4">

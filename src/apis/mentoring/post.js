@@ -1,10 +1,11 @@
-import { instance } from "./instance";
+import { instance } from "../instance";
 import {
   mockResponse,
   userData,
   postsData,
-  addPostRes,
-} from "../components/mentoring/mock";
+  postData,
+  addEditPostRes,
+} from "./mock";
 
 export async function getUser() {
   // return await instance.get(`/user`);
@@ -26,7 +27,11 @@ export async function getPostsReq(category, search, page) {
 }
 
 export async function getPostReq(pid) {
-  return await instance.get(`/mentorings/post/${pid}`);
+  // return await instance.get(`/mentorings/post/${pid}`);
+
+  // api 구현 전까지 mock 데이터 반환
+  await new Promise((resolve) => setTimeout(resolve, 500));
+  return mockResponse(postData);
 }
 
 export async function addPostReq(data) {
@@ -38,14 +43,19 @@ export async function addPostReq(data) {
 
   // api 구현 전까지 mock 데이터 반환
   await new Promise((resolve) => setTimeout(resolve, 500));
-  return mockResponse(addPostRes);
+  return mockResponse(addEditPostRes);
 }
 
 export async function editPostReq(pid, data) {
-  const { requiredData } = data;
-  return await instance.put(`/mentorings/post/${pid}`, {
-    requiredData,
-  });
+  // const { title, content } = data;
+  // return await instance.put(`/mentorings/post/${pid}`, {
+  //   title,
+  //   content,
+  // });
+
+  // api 구현 전까지 mock 데이터 반환
+  await new Promise((resolve) => setTimeout(resolve, 500));
+  return mockResponse(addEditPostRes);
 }
 
 export async function deletePostReq(pid) {

@@ -28,6 +28,18 @@ export const getPublicChannels = async () => {
   }
 };
 
+export const getChannelDetail = async (channelId) => {
+  try {
+    const { channel } = await client.getChannel({
+      channelId,
+    });
+    return channel;
+  } catch (error) {
+    console.log(error);
+    return {};
+  }
+};
+
 export const getJoinedChannels = async () => {
   try {
     const { channels } = await client.getChannels({ limit: 30 });
@@ -38,21 +50,14 @@ export const getJoinedChannels = async () => {
   }
 };
 
-export const joinChannel = async (channelId, channelName) => {
+export const joinChannel = async (channelId) => {
   try {
     const data = await client.joinChannel({
       channelId: channelId,
     });
     return data;
   } catch (error) {
-    if (error.code === "2003") {
-      await client.createChannel({
-        channelId: uuid(channelName, uuid.DNS),
-        name: channelName,
-        type: "super_public",
-        members: [],
-      });
-    } else if (error.code !== "2008") {
+    if (error.code !== "2008") {
       return alert(JSON.stringify(error));
     }
   }
@@ -85,6 +90,25 @@ export const leaveChannel = async (channelId) => {
     const data = await client.leaveChannel({
       channelId: channelId,
       deleteChannelIfEmpty: true,
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateChannel = async (channelId, data) => {
+  const { name, imageUrl = "", content = "", category, subcategory } = data;
+  try {
+    const data = await client.updateChannel({
+      channelId,
+      name,
+      imageUrl,
+      category,
+      subcategory,
+      data: {
+        content,
+      },
     });
     return data;
   } catch (error) {

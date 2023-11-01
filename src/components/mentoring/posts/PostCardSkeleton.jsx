@@ -5,19 +5,17 @@ export default function PostCardSkeleton() {
       <div className="flex-grow px-4 flex flex-col justify-center space-y-3">
         {["w-[20rem]", "w-[10rem]", "w-[40rem]"].map((val, index) => (
           <span
-            key={`skeleton-${index}`}
+            key={`skeletonInfo-${index}`}
             className={`${val} h-6 bg-gray-100`}
           />
         ))}
         <div className="flex items-center space-x-2">
-          {Array(4)
-            .fill(null)
-            .map((_, index) => (
-              <span
-                key={`skeletonTag-${index}`}
-                className="w-14 h-6 rounded-lg bg-gray-100"
-              />
-            ))}
+          {[1, 2, 3].map((index) => (
+            <span
+              key={`skeletonTag-${index}`}
+              className="w-14 h-6 rounded-lg bg-gray-100"
+            />
+          ))}
         </div>
       </div>
     </div>

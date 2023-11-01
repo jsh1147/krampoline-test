@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm, FormProvider, Controller } from "react-hook-form";
-import InputBox from "../atoms/InputBox";
+import { InputBox } from "../atoms/InputBox";
 import Button from "../../common/Button";
 import { login } from "../../../apis/user";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +16,7 @@ const LoginForm = ({ inputProps }) => {
   const { watch, control, handleSubmit } = methods;
   const email = watch("email");
   const password = watch("password");
+
   const { loginUser } = useLogin();
 
   const onSubmit = async () => {

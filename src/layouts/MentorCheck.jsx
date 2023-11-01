@@ -1,23 +1,27 @@
 import { useNavigate, Outlet } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
-import { getUser } from "../apis/mentorPost";
+import { getUser } from "../apis/mentoring/post";
 import { useEffectOnce } from "../hooks/useEffectOnce";
+import { RoleType } from "../constants/user";
 
-import Loader from "../components/mentoring/posts/Loader";
-import Error from "../components/mentoring/posts/Error";
+import Loader from "../components/common/Loader";
+import Error from "../components/common/Error";
+import toast from "react-hot-toast";
 
 export default function MentorCheck() {
+  const navigate = useNavigate();
   const { isLoading, isError, data } = useQuery({
     queryKey: ["user"],
     queryFn: getUser,
   });
-  const navigate = useNavigate();
+
+  const isMentor = data?.data.response.role === RoleType.MENTOR;
 
   useEffectOnce(() => {
     if (!(isLoading || isError))
-      if (data.data.response.role !== "mentor") {
-        alert("해당 서비스는 멘토만 접근할 수 있습니다.");
+      if (!isMentor) {
+        toast("This service is only accessible to mentors.");
         navigate("mentoring/posts", { replace: true });
       }
   }, [data]);
@@ -27,6 +31,6 @@ export default function MentorCheck() {
   ) : isError ? (
     <Error meesage="Failed to check role" />
   ) : (
-    <Outlet />
+    isMentor && <Outlet />
   );
 }

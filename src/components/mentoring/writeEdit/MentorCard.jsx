@@ -1,12 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { getUser } from "../../../apis/mentorPost";
+import { getUser } from "../../../apis/mentoring/post";
 import FlagTag from "../../common/FlagTag";
 import Tag from "../../common/Tag";
 
-export default function MentorCard() {
-  const { data } = useQuery({ queryKey: ["user"], queryFn: getUser });
-  const info = data.data.response;
+export default function MentorCard({ info }) {
   return (
     <div className="w-fit py-3 flex items-end space-x-2">
       <img

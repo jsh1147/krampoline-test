@@ -1,24 +1,29 @@
 import { useNavigate } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
-import { Suspense } from "react";
-import { ErrorBoundary } from "react-error-boundary";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
-import { useInputsRef } from "../../../hooks/useInputsRef";
+import { useInputsState } from "../../../hooks/useInputsState";
+import { getUser, addPostReq } from "../../../apis/mentoring/post";
 
-import Error from "../posts/Error";
-import Loader from "../posts/Loader";
 import MentorCard from "./MentorCard";
 import Button from "../../common/Button";
-import { addPostReq } from "../../../apis/mentorPost";
 
 export default function WriteSection() {
   const navigate = useNavigate();
-  const { inputValue, handleInputChange } = useInputsRef({
+  const { inputValue, handleInputChange } = useInputsState({
     title: "",
     content: "",
   });
 
+  const { data } = useQuery({ queryKey: ["user"], queryFn: getUser });
+
   const { mutate } = useMutation({ mutationFn: addPostReq });
+
+  const handleTitleChange = (e) => {
+    const title = e.target.value;
+    if (title.length > 50) e.target.value = title.slice(0, 50);
+    handleInputChange(e);
+  };
 
   const handleContentChange = (e) => {
     const content = e.target.value;
@@ -27,18 +32,18 @@ export default function WriteSection() {
   };
 
   const handlePostClick = () => {
-    if (inputValue.current.title && inputValue.current.content) {
+    if (inputValue.title && inputValue.content) {
       mutate(inputValue.current, {
         onSuccess: (res) => {
-          alert("Successfully written.");
+          toast("Successfully written.");
           navigate(`/mentoring/post/${res.data.response.pid}`);
         },
       });
-    } else alert("No title or content has been written.");
+    } else toast("No title or content has been written.");
   };
 
   const handleCancelClick = () => {
-    if (inputValue.current.title || inputValue.current.content) {
+    if (inputValue.title || inputValue.content) {
       if (
         confirm(
           "There's something you're writing.\nDo you really want to go back?"
@@ -52,20 +57,14 @@ export default function WriteSection() {
     <div className="flex justify-center">
       <div className="w-full max-w-[58rem] m-12 p-12 bg-white flex flex-col">
         <h1 className="pb-4 text-center font-bold text-green-700">MENTORING</h1>
-        <Suspense fallback={<Loader />}>
-          <ErrorBoundary
-            fallback={<Error errorMessage="Failed to load mentoring list" />}
-          >
-            <MentorCard />
-          </ErrorBoundary>
-        </Suspense>
-
+        <MentorCard info={data.data.response} />
         <div>
           <input
             name="title"
             className="block w-full p-3 border focus:outline-none text-xl"
             placeholder="Title"
-            onChange={handleInputChange}
+            onChange={handleTitleChange}
+            value={inputValue.title}
           />
           <textarea
             name="content"
@@ -73,6 +72,7 @@ export default function WriteSection() {
             style={{}}
             placeholder="Find your study mate by writing a post that identifies you! (Maximum 300 characters)"
             onChange={handleContentChange}
+            value={inputValue.content}
           />
         </div>
         <div className="py-3 space-x-2">

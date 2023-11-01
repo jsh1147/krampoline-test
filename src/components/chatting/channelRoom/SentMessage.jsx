@@ -6,11 +6,11 @@ const SentMessage = ({ message }) => {
   const createdAt = convertDate(message.createdAt);
   return (
     <div className="flex justify-end w-full py-2">
-      <div className="flex flex-col items-end w-fit max-w-[16rem]">
+      <div className="grid grid-cols-[6rem_1fr] max-w-[50%] justify-items-end items-end gap-2">
+        <div className="text-gray-500 text-xs w-fit">{createdAt}</div>
         <div className="bg-green-300 p-3 rounded-lg w-fit">
           {XSSCheck(text)}
         </div>
-        <div className="text-gray-500 text-xs">{createdAt}</div>
       </div>
     </div>
   );

@@ -10,11 +10,12 @@ import {
 import { login } from "../../apis/chatting/talkplus";
 import Tabs from "../../components/chatting/channelList/Tabs";
 import { CHANNEL_TYPES } from "../../constants/chatting/chatting";
-import CreateChannelModal from "../../components/chatting/CreateChannelModal";
+import CreateChannelModal from "../../components/chatting/modal/CreateChannelModal";
 
 const ChattingListPage = () => {
   const [channelType, setChannelType] = useState(CHANNEL_TYPES[0]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [detailModalIsOpen, setDetailModalIsOpen] = useState(false);
   const setUserId = useSetAtom(userIdAtom);
   const setUserProfileImageUrl = useSetAtom(userProfileImageUrlAtom);
   const setUserName = useSetAtom(userNameAtom);
@@ -37,26 +38,26 @@ const ChattingListPage = () => {
 
   return (
     <Suspense fallback={<div>로딩중</div>}>
-      <div className="flex justify-center w-full h-screen relative">
-        <div className="flex flex-col gap-6 w-[1000px] h-[700px]">
-          <p className="text-3xl font-extrabold">Chat List</p>
+      <section className="flex justify-center w-full">
+        <CreateChannelModal
+          modalIsOpen={modalIsOpen}
+          setModalIsOpen={setModalIsOpen}
+        />
+        <section className="flex flex-col gap-6 w-[1000px]">
+          <h1 className="text-3xl font-extrabold">Chat List</h1>
           <Tabs
             channelTypes={CHANNEL_TYPES}
             currentType={channelType}
             setChannelType={setChannelType}
             handleModalOpen={() => setModalIsOpen(true)}
           />
-          {channelType === "public" ? (
+          {channelType === "Public" ? (
             <PublicChannelList />
           ) : (
             <JoinedChannelList />
           )}
-        </div>
-        <CreateChannelModal
-          modalIsOpen={modalIsOpen}
-          setModalIsOpen={setModalIsOpen}
-        />
-      </div>
+        </section>
+      </section>
     </Suspense>
   );
 };

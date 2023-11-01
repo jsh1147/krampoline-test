@@ -28,7 +28,7 @@ const theme = createTheme({
   },
 });
 
-const InputBox = forwardRef((props, ref) => {
+export const InputBox = forwardRef((props, ref) => {
   const {
     field: { onChange, onBlur, value },
     fieldState: { invalid, error },
@@ -92,4 +92,23 @@ const InputBox = forwardRef((props, ref) => {
   );
 });
 
-export default InputBox;
+export const InputOnly = (props) => {
+  return (
+    <ThemeProvider theme={theme}>
+      <TextField
+        value={props.value}
+        label={props.label}
+        id={props.id}
+        type={props.type}
+        variant="outlined"
+        color="secondary"
+        onChange={props.onChange}
+        sx={{
+          width: "100%",
+          marginTop: 3,
+          marginBottom: 2,
+        }}
+      />
+    </ThemeProvider>
+  );
+};

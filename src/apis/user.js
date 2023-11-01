@@ -1,6 +1,11 @@
 import { instance } from "./instance";
 import { mockUsers, mockResponse } from "../components/account/mockUser";
 
+// export const emailCheck = (data) => {
+//   const email = data;
+//   return instance.post("/users/emailcheck", email);
+// };
+
 export const register = (data) => {
   const {
     firstName,
@@ -91,4 +96,24 @@ export const getUser = async () => {
     user: responseUser,
     success: true,
   };
+};
+
+// 백앤드 api 연결 전 까지 mock api 사용 - emailCheck
+export const emailCheck = async (data) => {
+  const { email } = data;
+  let response;
+
+  // mockUsers 객체에서 이메일 찾기
+  if (mockUsers[email]) {
+    // 이메일이 존재하면 success: false 리턴
+    response = mockResponse({
+      success: false,
+      message: "Email already exists.",
+    });
+  } else {
+    // 이메일이 존재하지 않으면 success: true 리턴
+    response = mockResponse({ success: true, message: "Email is available." });
+  }
+
+  return response;
 };

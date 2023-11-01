@@ -5,17 +5,21 @@ const ChannelListItem = ({ data }) => {
       {imageUrl ? (
         <img
           src={imageUrl}
-          alt="user image"
-          className="w-24 h-24 rounded-full"
+          alt="channel image"
+          className="w-28 h-28 rounded-2xl"
         />
       ) : (
-        <div className="w-24 h-24 bg-gray-200 rounded-full"></div>
+        <div className="w-28 h-28 bg-gray-200 rounded-2xl"></div>
       )}
       <div className="flex flex-col gap-2">
-        <span className="text-xl font-bold">{name}</span>
-        <span className="text-gray-600">{memberCount} people</span>
-        <span>{detail?.content ? detail.content : ""}</span>
-        <div>{detail?.tag ? <span>tags</span> : <span>no tag</span>}</div>
+        <span className="text-xl font-semibold">{name}</span>
+        <span className="text-gray-400 text-xs">{memberCount} people</span>
+        <span className="text-gray-700 text-sm text-ellipsis">
+          {detail?.content ? detail.content : ""}
+        </span>
+        <section>
+          {detail?.tag && detail.tag.map((t) => <span key={t}>{t}</span>)}
+        </section>
       </div>
     </div>
   );

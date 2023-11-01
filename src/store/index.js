@@ -1,4 +1,4 @@
-import { atom, useAtomValue } from "jotai";
+import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
 // token 상태 관리

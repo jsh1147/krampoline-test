@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-import { getPostsReq } from "../../../apis/mentorPost";
+import { getPostsReq } from "../../../apis/mentoring/post";
 
 import PostCard from "./PostCard";
-import PostCardSkeleton from "./PostCardSkeleton";
+import PostCardSkeletons from "./PostCardSkeletons";
 
 export default function PostList({ category, search }) {
   const { isLoading, data, hasNextPage, fetchNextPage, isFetchingNextPage } =
@@ -33,10 +33,7 @@ export default function PostList({ category, search }) {
         .map((post) => (
           <PostCard key={`postcard-${post.pid}`} post={post} />
         ))}
-      {isFetchingNextPage &&
-        Array(3)
-          .fill(null)
-          .map((_, index) => <PostCardSkeleton key={`skeleton-${index}`} />)}
+      {isFetchingNextPage && <PostCardSkeletons />}
       <div ref={ref}></div>
     </div>
   );

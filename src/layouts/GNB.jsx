@@ -1,20 +1,14 @@
 import { Link, useLocation } from "react-router-dom";
-import { authAtom } from "../store/index";
 import { navStructure } from "./navStructure";
 import useLogin from "../components/account/hooks/useLogin";
-import { useAtom } from "jotai";
+import React from "react";
 
-export default function GNB() {
+export default function GNB({ data }) {
   const { logoutUser } = useLogin();
-  const [auth, setAuth] = useAtom(authAtom);
-
+  const auth = window.localStorage.getItem("isLogin");
   const currentUrl = useLocation()
     .pathname.replace(/\d/, "")
     .replace(/^\/+|\/+$/g, "");
-
-  // api 기능 생기기 전까지 임시 프로필 이미지 경로
-  const profileImageUrl =
-    "https://mblogthumb-phinf.pstatic.net/MjAyMDExMDFfMjIg/MDAxNjA0MjI4ODc1MDkx.itxFQbHQ_zAuNQJU7PCOlF0mmstYn2v4ZF4WygunqGIg.3jloNowx-eWU-ztCLACtYubVbATNdCFQLjgvYsynV1og.JPEG.gambasg/유튜브_기본프로필_주황.jpg?type=w400";
 
   return (
     <nav className="fixed top-0 w-full h-20 bg-white text-green-900">
@@ -50,7 +44,7 @@ export default function GNB() {
               <div>
                 <img
                   className="w-7 rounded-full"
-                  src={profileImageUrl}
+                  src={data?.user?.profileImage}
                   alt="기본 프로필 사진"
                 ></img>
               </div>
