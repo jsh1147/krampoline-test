@@ -6,14 +6,10 @@ import { login } from "../../../apis/user";
 import { useNavigate } from "react-router-dom";
 import useLogin from "../hooks/useLogin";
 
-// 1. 리액트 쿼리
-// 2. 자동 로그인
-// 3. useForm hook 모듈화
-
 const LoginForm = ({ inputProps }) => {
   const navigate = useNavigate();
   const methods = useForm();
-  const { watch, control, handleSubmit } = methods;
+  const { watch, control, handleSubmit, setError } = methods;
   const email = watch("email");
   const password = watch("password");
 
@@ -25,18 +21,39 @@ const LoginForm = ({ inputProps }) => {
         email: email,
         password: password,
       });
+      console.log(response);
 
-      if (response.data.success === true) {
+      if (response?.data?.status === "success") {
         loginUser(response);
         console.log("login success");
         navigate("/");
       } else {
         // 로그인 실패
-        console.error("login failed");
+        console.error(error);
       }
     } catch (error) {
       // 로그인 요청 실패
-      console.error("Error during login:", error);
+      if (error?.response?.data?.message == "잘못된 이메일입니다.") {
+        setError(
+          "email",
+          {
+            message:
+              "You entered the wrong ID. Please check what you have entered again.",
+          },
+          { shouldFocus: true }
+        );
+      }
+      if (error?.response?.data?.message == "잘못된 비밀번호입니다.") {
+        setError(
+          "password",
+          {
+            message:
+              "You entered the wrong PW. Please check what you have entered again.",
+          },
+          { shouldFocus: true }
+        );
+      }
+      console.error(error);
     }
   };
 

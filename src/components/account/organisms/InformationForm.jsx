@@ -4,6 +4,9 @@ import Modal from "../atoms/Modal";
 import { useState } from "react";
 import { InputOnly } from "../atoms/InputBox";
 import { useNavigate } from "react-router-dom";
+import { codeToName } from "../../../utils/account/country";
+import { profileImageAtom } from "../../../store/index";
+import { useAtom } from "jotai";
 
 const KeyValueComponent = ({ keyName, value }) => (
   <div className="flex justify-between">
@@ -18,6 +21,8 @@ const KeyValueComponent = ({ keyName, value }) => (
 );
 
 const InformationForm = ({ data }) => {
+  const info = data?.data?.data;
+  const [defaultProfileImage] = useAtom(profileImageAtom);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [password, setPassword] = useState();
@@ -32,25 +37,25 @@ const InformationForm = ({ data }) => {
   const userInfo = [
     {
       keyName: "Name",
-      value: `${data?.user?.firstName || ""} ${data?.user?.lastName || ""}`,
+      value: `${info?.firstName || ""} ${info?.lastName || ""}`,
     },
-    { keyName: "Email", value: data?.user?.email },
-    { keyName: "Age", value: data?.user?.age },
-    { keyName: "TEL", value: data?.user?.phone },
-    { keyName: "Country", value: data?.user?.country },
-    { keyName: "bio", value: data?.user?.introduction },
-    { keyName: "Role", value: data?.user?.role },
-    { keyName: "Interests", value: data?.user?.categoryList.join(", ") },
+    { keyName: "Email", value: info?.email },
+    { keyName: "Birth", value: info?.age },
+    { keyName: "TEL", value: info?.phone },
+    { keyName: "Country", value: codeToName(info?.country) },
+    { keyName: "bio", value: info?.introduction },
+    { keyName: "Role", value: info?.role },
+    // { keyName: "Interests", value: info?.categoryList.join(", ") },
   ];
 
   return (
-    <div>
-      <section className="p-10 border border-2 bg-white border-orange w-[500px]">
-        <Title className="text-xl mb-5">
+    <div className="min-w-[50%] flex justify-center items-center flex-col">
+      <section className="p-10 border border-2 bg-white w-full">
+        <Title className="text-xl mb-5 border-b">
           My Information
           <img
             className="w-7 rounded-full inline-block mb-2 ml-2"
-            src={data?.user?.profileImage}
+            src={info?.profileImage || defaultProfileImage}
             alt="Profile Image"
           ></img>
         </Title>
@@ -63,7 +68,7 @@ const InformationForm = ({ data }) => {
         ))}
       </section>
 
-      <section className="mt-10 mb-10 p-10 border border-2 bg-white border-orange w-[500px]">
+      <section className="mt-10 mb-10 p-10 border border-2 bg-white w-full">
         <Title className="text-xl mb-5">Update Information</Title>
         <p className="text-gray-500">Go to Edit Information</p>
         <div className="relative w-full flex justify-end">
@@ -81,7 +86,7 @@ const InformationForm = ({ data }) => {
               Please enter your password for user authentication
             </p>
             <InputOnly
-              value={password}
+              value={password || ""}
               type="password"
               id="password"
               label="password"

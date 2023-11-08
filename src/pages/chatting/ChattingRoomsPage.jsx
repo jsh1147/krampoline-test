@@ -1,5 +1,5 @@
 import { Suspense, useEffect, useState } from "react";
-import { client, getChannelDetail, login } from "../../apis/chatting/talkplus";
+import { client, login } from "../../apis/chatting/talkplus";
 import { useSetAtom } from "jotai";
 import {
   userIdAtom,
@@ -23,7 +23,6 @@ const ChattingRoomsPage = () => {
   const handleLogin = () => {
     login()
       .then((res) => {
-        console.log(res);
         setUserId(res.id);
         setUserProfileImageUrl(res.profileImageUrl);
         setUserName(res.username);

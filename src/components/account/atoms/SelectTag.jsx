@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { CATEGORY } from "../constants/TAGLIST";
@@ -13,36 +13,35 @@ const theme = createTheme({
   },
 });
 
-export default function SelectTag() {
-  const [selectedOptions, setSelectedOptions] = React.useState([
-    CATEGORY[0],
-    CATEGORY[1],
-  ]);
-
+export default function SelectTag({ selected, onSelectedChange, ...props }) {
   const handleOnChange = (event, newValue) => {
-    if (newValue.length <= 3) {
-      setSelectedOptions(newValue);
+    if (newValue.length <= 3 && newValue.length >= 1) {
+      const selectedCategories = newValue.map((item) => item.category);
+      onSelectedChange(selectedCategories);
     }
   };
 
   return (
-    <div className="justify-center items-center mt-10 mb-20">
-      <Title className="mb-10">Chooese Your Favorites! </Title>
+    <div className="justify-center items-center">
       <ThemeProvider theme={theme}>
         <Autocomplete
           multiple
+          required
+          name={props.name}
           fullWidth={true}
           includeInputInList={true}
-          id="categorylist"
+          id={props.id}
           options={CATEGORY}
-          value={selectedOptions}
+          value={selected.map((category) =>
+            CATEGORY.find((item) => item.category === category)
+          )}
           getOptionLabel={(option) => option.category}
           onChange={handleOnChange}
           color="main"
           renderInput={(params) => (
             <TextField
               {...params}
-              label="Favorites"
+              label="Interests"
               placeholder="Choose your favorites!"
             />
           )}

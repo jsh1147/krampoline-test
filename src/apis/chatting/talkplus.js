@@ -1,4 +1,5 @@
 import { v5 as uuid } from "uuid";
+import ERROR_CODE from "../../constants/chatting/ERROR";
 
 // eslint-disable-next-line no-undef
 export const client = new TalkPlus.Client({
@@ -18,10 +19,26 @@ export const login = async () => {
   }
 };
 
-export const getPublicChannels = async () => {
+export const getPublicChannels = async ({
+  lastChannelId,
+  searchValue,
+  searchSubValue,
+}) => {
   try {
-    const { channels } = await client.getPublicChannels({ limit: 30 });
-    return channels;
+    const body = { limit: 30 };
+    if (lastChannelId) {
+      body.lastChannelId = lastChannelId;
+    }
+    if (searchValue && searchValue.length > 0) {
+      body.category = searchValue;
+    }
+
+    if (searchSubValue && searchSubValue.length > 0) {
+      body.subcategory = searchSubValue;
+    }
+
+    const data = await client.getPublicChannels(body);
+    return data;
   } catch (error) {
     console.log(error);
     return [];
@@ -57,14 +74,13 @@ export const joinChannel = async (channelId) => {
     });
     return data;
   } catch (error) {
-    if (error.code !== "2008") {
+    if (error.code !== ERROR_CODE.ALREADY_MEMBER) {
       return alert(JSON.stringify(error));
     }
   }
 };
 
 export const createChannel = async (data) => {
-  console.log("createChannel");
   const { name, imageUrl = "", content = "", category } = data;
   try {
     const data = await client.createChannel({
@@ -116,13 +132,23 @@ export const updateChannel = async (channelId, data) => {
   }
 };
 
-export const getMessages = async (channelId) => {
+export const getMessages = async ({ channelId, lastMessageId }) => {
+  console.log("getMessages", channelId, lastMessageId);
   try {
-    const { messages } = await client.getMessages({
-      channelId: channelId,
-      order: "oldest",
-    });
-    return messages;
+    const body = {
+      channelId,
+      order: "latest",
+      limit: 70,
+    };
+    if (lastMessageId) {
+      body.lastMessageId = lastMessageId;
+    }
+
+    const data = await client.getMessages(body);
+    return {
+      messages: data.messages.reverse(),
+      hasNext: data.hasNext,
+    };
   } catch (error) {
     console.log(error);
   }

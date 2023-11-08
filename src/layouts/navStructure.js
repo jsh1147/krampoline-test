@@ -1,10 +1,10 @@
 export const navStructure = [
   {
     mainNav: "Watching",
-    mainUrl: "watching",
+    mainUrl: "videos",
     sub: [
-      { subNav: "Video", url: ["watching/videos", "watching/video"] },
-      { subNav: "History", url: ["watching/History"] },
+      { subNav: "Video", url: ["videos"] },
+      { subNav: "History", url: ["videos/history"] },
     ],
     subPadding: "pl-[3.7rem]",
   },
@@ -47,7 +47,7 @@ export const navStructure = [
     sub: [
       {
         subNav: "Profile",
-        url: ["mypage/profiles/:id"],
+        url: ["mypage/profiles"],
       },
       {
         subNav: "Information",

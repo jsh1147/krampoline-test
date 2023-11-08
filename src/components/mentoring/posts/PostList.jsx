@@ -15,7 +15,7 @@ export default function PostList({ category, search }) {
         return getPostsReq(category, search, pageParam);
       },
       getNextPageParam: (lastPage, allPages) => {
-        if (lastPage.data.response.length === 0) return undefined;
+        if (lastPage.data.data.length === 0) return undefined;
         return allPages.length;
       },
     });
@@ -29,9 +29,9 @@ export default function PostList({ category, search }) {
   return (
     <div className="flex flex-col">
       {data.pages
-        .flatMap((page) => page.data.response)
+        .flatMap((page) => page.data.data)
         .map((post) => (
-          <PostCard key={`postcard-${post.pid}`} post={post} />
+          <PostCard key={`postcard-${post.postId}`} post={post} />
         ))}
       {isFetchingNextPage && <PostCardSkeletons />}
       <div ref={ref}></div>

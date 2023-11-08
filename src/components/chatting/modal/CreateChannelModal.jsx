@@ -8,7 +8,7 @@ const customStyles = {
     top: "50%",
     left: "50%",
     width: "calc(100% - 28rem)",
-    height: "calc(70%)",
+    height: "calc(80%)",
     right: "auto",
     bottom: "auto",
     marginRight: "-50%",
@@ -81,18 +81,6 @@ const CreateChannelModal = ({ modalIsOpen, setModalIsOpen }) => {
           채팅방 생성
         </p>
         <input
-          type="url"
-          className="border-[1.5px] border-gray-300 rounded-md p-2"
-          placeholder="채팅방 이미지 URL을 입력하세요"
-          value={createChannelInfo.imageUrl}
-          onChange={(e) => {
-            setCreateChannelInfo({
-              ...createChannelInfo,
-              imageUrl: e.target.value,
-            });
-          }}
-        />
-        <input
           type="text"
           placeholder="채팅방 이름을 입력하세요"
           className="border-[1.5px] border-gray-300 rounded-md p-2"
@@ -104,17 +92,38 @@ const CreateChannelModal = ({ modalIsOpen, setModalIsOpen }) => {
             });
           }}
         />
-        <textarea
-          className="border-[1.5px] border-gray-300 rounded-md p-2 h-full resize-none"
-          placeholder="채팅방 설명을 입력하세요"
-          value={createChannelInfo.content}
-          onChange={(e) => {
-            setCreateChannelInfo({
-              ...createChannelInfo,
-              content: e.target.value,
-            });
-          }}
-        />
+        <div className="grid grid-cols-[2fr_5fr] gap-2">
+          <div className="w-full">
+            <img
+              src={createChannelInfo.imageUrl}
+              alt="채널 이미지"
+              className="w-full h-52 object-cover"
+            />
+            <input
+              type="url"
+              className="border-[1.5px] border-gray-300 rounded-md p-2 w-full"
+              placeholder="채팅방 이미지 URL을 입력하세요"
+              value={createChannelInfo.imageUrl}
+              onChange={(e) => {
+                setCreateChannelInfo({
+                  ...createChannelInfo,
+                  imageUrl: e.target.value,
+                });
+              }}
+            />
+          </div>
+          <textarea
+            className="border-[1.5px] border-gray-300 rounded-md p-2 h-full resize-none"
+            placeholder="채팅방 설명을 입력하세요"
+            value={createChannelInfo.content}
+            onChange={(e) => {
+              setCreateChannelInfo({
+                ...createChannelInfo,
+                content: e.target.value,
+              });
+            }}
+          />
+        </div>
         <button
           className="hover:bg-orange rounded-md p-2 mt-4 hover:text-white text-black bg-amber-300 transition-colors duration-300"
           onClick={handleCreateChannel}

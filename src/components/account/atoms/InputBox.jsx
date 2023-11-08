@@ -60,6 +60,8 @@ export const InputBox = forwardRef((props, ref) => {
         type={props.type}
         variant={props.variant}
         name={props.name}
+        multiline={props.multiline}
+        rows={props.rows}
         color="secondary"
         error={invalid}
         helperText={error ? error.message : null}
@@ -99,6 +101,7 @@ export const InputOnly = (props) => {
         value={props.value}
         label={props.label}
         id={props.id}
+        InputProps={{ readOnly: props.readOnly }}
         type={props.type}
         variant="outlined"
         color="secondary"

@@ -1,6 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
-
-import { getUser } from "../../../apis/mentoring/post";
 import FlagTag from "../../common/FlagTag";
 import Tag from "../../common/Tag";
 
@@ -13,10 +10,10 @@ export default function MentorCard({ info }) {
         alt={`프로필 이미지`}
       />
       <div className="inline-flex items-center space-x-2">
-        <span className="text-sm">{`${info.firstName} ${info.lastName}`}</span>
+        <span className="text-sm">{info.name}</span>
         <FlagTag>{info.country}</FlagTag>
-        <Tag>Mentor</Tag>
-        {info.interest.map((val, index) => (
+        <Tag>{info.role}</Tag>
+        {info.interests.map((val, index) => (
           <Tag key={`tag-${index}`}>{val}</Tag>
         ))}
       </div>

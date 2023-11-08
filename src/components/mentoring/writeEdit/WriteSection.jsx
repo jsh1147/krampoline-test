@@ -33,10 +33,10 @@ export default function WriteSection() {
 
   const handlePostClick = () => {
     if (inputValue.title && inputValue.content) {
-      mutate(inputValue.current, {
+      mutate(inputValue, {
         onSuccess: (res) => {
           toast("Successfully written.");
-          navigate(`/mentoring/post/${res.data.response.pid}`);
+          navigate(`/mentoring/post/${res.data.data.postId}`);
         },
       });
     } else toast("No title or content has been written.");
@@ -57,7 +57,7 @@ export default function WriteSection() {
     <div className="flex justify-center">
       <div className="w-full max-w-[58rem] m-12 p-12 bg-white flex flex-col">
         <h1 className="pb-4 text-center font-bold text-green-700">MENTORING</h1>
-        <MentorCard info={data.data.response} />
+        <MentorCard info={data.data.data} />
         <div>
           <input
             name="title"
@@ -79,7 +79,7 @@ export default function WriteSection() {
           <Button color="white" size="sm" onClick={handlePostClick}>
             Post
           </Button>
-          <Button color="orange" size="sm" onClick={handleCancelClick}>
+          <Button color="white" size="sm" onClick={handleCancelClick}>
             Cancel
           </Button>
         </div>

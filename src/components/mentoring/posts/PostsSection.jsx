@@ -1,18 +1,28 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
 import { getUser } from "../../../apis/mentoring/post";
 import { useInputsState } from "../../../hooks/useInputsState";
-import { RoleType } from "../../../constants/user";
+import { userRole, searchCategory } from "../../../constants/mentoring";
 
 import Fallback from "../../common/Fallback";
 import Error from "../../common/Error";
 import PostCardSkeletons from "./PostCardSkeletons";
 import PostList from "./PostList";
+import { useAtomValue } from "jotai";
+import { authAtom } from "../../../store";
+import Button from "../../common/Button";
 
 export default function PostsSection() {
-  const { data } = useQuery({ queryKey: ["user"], queryFn: getUser });
+  const navigate = useNavigate();
+  const auth = useAtomValue(authAtom);
+
+  const { data } = useQuery({
+    queryKey: ["user"],
+    queryFn: getUser,
+    enabled: !!auth,
+  });
 
   const [searchValue, setSearchValue] = useState({
     category: "title",
@@ -23,6 +33,10 @@ export default function PostsSection() {
     category: "title",
     search: "",
   });
+
+  const handleWriteClick = () => {
+    navigate("/mentoring/write");
+  };
 
   const handleSerchChange = (e) => {
     const search = e.target.value;
@@ -40,13 +54,10 @@ export default function PostsSection() {
         <h1 className="inline-block text-4xl font-bold text-green-700">
           Mentoring List
         </h1>
-        {data.data.response.role === RoleType.MENTOR && (
-          <Link
-            className="px-2 py-1 border-2 rounded-lg border-orange text-lg text-orange font-semibold"
-            to="/mentoring/write"
-          >
+        {(!auth || data.data.data.role === userRole.MENTOR) && (
+          <Button color="white" size="base" onClick={handleWriteClick}>
             Write
-          </Link>
+          </Button>
         )}
       </div>
       <div className="p-2 border-b-2 bg-white flex items-center space-x-2 text-sm">
@@ -56,7 +67,7 @@ export default function PostsSection() {
           onChange={handleInputChange}
           value={inputValue.category}
         >
-          {["Title", "Writer", "Interest"].map((val) => (
+          {Object.values(searchCategory).map((val) => (
             <option
               key={`category-${val.toLowerCase()}`}
               value={val.toLowerCase()}

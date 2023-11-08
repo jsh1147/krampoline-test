@@ -2,16 +2,21 @@ import { Link, useLocation } from "react-router-dom";
 import { navStructure } from "./navStructure";
 import useLogin from "../components/account/hooks/useLogin";
 import React from "react";
+import { useAtom } from "jotai";
+import { profileImageAtom } from "../store/index";
 
-export default function GNB({ data }) {
+export default function GNB({ profileImage }) {
   const { logoutUser } = useLogin();
+  const [defaultProfileImage] = useAtom(profileImageAtom);
+
   const auth = window.localStorage.getItem("isLogin");
+
   const currentUrl = useLocation()
-    .pathname.replace(/\d/, "")
+    .pathname.replace(/\d/g, "")
     .replace(/^\/+|\/+$/g, "");
 
   return (
-    <nav className="fixed top-0 w-full h-20 bg-white text-green-900">
+    <nav className="fixed z-20 top-0 w-full h-20 bg-white text-green-900">
       {/* 상단GNB */}
       <div className="h-12 px-16 border flex items-center">
         {/* 상단GNB - 상단Nav */}
@@ -19,7 +24,7 @@ export default function GNB({ data }) {
           {navStructure.map((val) => (
             <Link
               key={val.mainNav}
-              className={`w-20 h-7 text-center text-sm${
+              className={`w-20 h-7 text-center hover:text-green-700 hover:font-bold text-sm${
                 currentUrl.includes(val.mainUrl)
                   ? " border-b-2 border-orange font-bold"
                   : ""
@@ -33,7 +38,7 @@ export default function GNB({ data }) {
         {/* 상단GNB - 로고 */}
         <div className="flex-1 flex justify-center">
           <Link className="flex items-center" to="/watching/videos">
-            <span className="material-symbols-outlined">deceased</span>
+            <span className="material-symbols-outlined">psychiatry</span>
             <span className="text-lg font-semibold">Garden</span>
           </Link>
         </div>
@@ -44,13 +49,13 @@ export default function GNB({ data }) {
               <div>
                 <img
                   className="w-7 rounded-full"
-                  src={data?.user?.profileImage}
-                  alt="기본 프로필 사진"
+                  src={profileImage || defaultProfileImage}
+                  alt="profile"
                 ></img>
               </div>
               <Link
                 className="pl-1 pr-2 py-[2px] border-2 border-orange rounded"
-                to={"/watching/videos"}
+                to={"/videos"}
                 onClick={logoutUser}
               >
                 <span className=" flex items-center text-xs text-orange">
@@ -84,7 +89,7 @@ export default function GNB({ data }) {
           .sub.map((val) => (
             <Link
               key={val.subNav}
-              className={`text-xs${
+              className={`text-xs hover:text-orange  ${
                 val.url.includes(currentUrl) ? " text-orange font-semibold" : ""
               }`}
               to={val.url[0]}

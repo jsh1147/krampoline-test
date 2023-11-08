@@ -1,6 +1,6 @@
 import Title from "../atoms/Title";
 import SignupForm from "../organisms/SignupForm";
-import SIGNUP from "../constants/SIGNUP";
+import { SIGNUP } from "../constants/SIGNUP";
 import { Link } from "react-router-dom";
 
 const SignupTemplate = () => {

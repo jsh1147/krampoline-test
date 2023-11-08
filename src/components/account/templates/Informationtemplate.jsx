@@ -9,7 +9,7 @@ const Informationtemplate = () => {
 
   return (
     <>
-      <main className="mt-20 justify-center items-center flex flex-col">
+      <main className="mt-10 w-full justify-center items-center flex flex-col">
         <InformationForm data={data} />
       </main>
     </>

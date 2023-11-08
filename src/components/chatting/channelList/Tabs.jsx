@@ -1,9 +1,12 @@
-const Tabs = ({
-  channelTypes,
-  currentType,
-  setChannelType,
-  handleModalOpen,
-}) => {
+import { useAtom } from "jotai";
+import { currentChannelTypeAtom } from "../../../store/chatting/chatting";
+import { CHANNEL_TYPES } from "../../../constants/chatting/CHAT";
+
+const Tabs = ({ handleModalOpen }) => {
+  const [channelType, setChannelType] = useAtom(currentChannelTypeAtom);
+  const tabNames = Object.values(CHANNEL_TYPES).map(
+    (channel) => channel.tabName
+  );
   const handleClick = (type) => {
     setChannelType(type);
   };
@@ -11,8 +14,8 @@ const Tabs = ({
   return (
     <div className="flex justify-between w-full border-b-2 px-3">
       <div className="flex gap-2">
-        {channelTypes.map((type) =>
-          type === currentType ? (
+        {tabNames.map((type) =>
+          type === channelType ? (
             <div
               key={type}
               className="font-bold text-orange p-2 border-b-2 border-orange"

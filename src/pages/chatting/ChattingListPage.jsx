@@ -1,21 +1,21 @@
 import { Suspense, useEffect, useState } from "react";
 import PublicChannelList from "../../components/chatting/channelList/PublicChannelList";
 import JoinedChannelList from "../../components/chatting/channelList/JoinedChannelList";
-import { useSetAtom } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import {
+  currentChannelTypeAtom,
   userIdAtom,
   userNameAtom,
   userProfileImageUrlAtom,
 } from "../../store/chatting/chatting";
 import { login } from "../../apis/chatting/talkplus";
 import Tabs from "../../components/chatting/channelList/Tabs";
-import { CHANNEL_TYPES } from "../../constants/chatting/chatting";
 import CreateChannelModal from "../../components/chatting/modal/CreateChannelModal";
 
 const ChattingListPage = () => {
-  const [channelType, setChannelType] = useState(CHANNEL_TYPES[0]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [detailModalIsOpen, setDetailModalIsOpen] = useState(false);
+  const channelType = useAtomValue(currentChannelTypeAtom);
+
   const setUserId = useSetAtom(userIdAtom);
   const setUserProfileImageUrl = useSetAtom(userProfileImageUrlAtom);
   const setUserName = useSetAtom(userNameAtom);
@@ -38,19 +38,14 @@ const ChattingListPage = () => {
 
   return (
     <Suspense fallback={<div>로딩중</div>}>
-      <section className="flex justify-center w-full">
+      <section className="flex justify-center w-full mb-8">
         <CreateChannelModal
           modalIsOpen={modalIsOpen}
           setModalIsOpen={setModalIsOpen}
         />
         <section className="flex flex-col gap-6 w-[1000px]">
           <h1 className="text-3xl font-extrabold">Chat List</h1>
-          <Tabs
-            channelTypes={CHANNEL_TYPES}
-            currentType={channelType}
-            setChannelType={setChannelType}
-            handleModalOpen={() => setModalIsOpen(true)}
-          />
+          <Tabs handleModalOpen={() => setModalIsOpen(true)} />
           {channelType === "Public" ? (
             <PublicChannelList />
           ) : (

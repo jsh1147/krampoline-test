@@ -8,8 +8,13 @@ import { register, emailCheck } from "../../../apis/user";
 import RadioButton from "../atoms/RadioButton";
 import BasicDatePicker from "../atoms/DatePicker";
 import SelectTag from "../atoms/SelectTag";
+import { useNavigate } from "react-router-dom";
+import { nameToCode } from "../../../utils/account/country";
+import Title from "../atoms/Title";
+import Toast from "../../common/Toast";
 
 const SignupForm = ({ inputProps }) => {
+  const navigate = useNavigate();
   const methods = useForm();
   const { watch, control, handleSubmit, setError, clearErrors } = methods;
   const firstName = watch("firstName");
@@ -20,30 +25,50 @@ const SignupForm = ({ inputProps }) => {
   const passwordCheck = watch("passwordcheck");
   const age = watch("age");
 
-  const [country, setCountry] = useState("the United States");
+  const [country, setCountry] = useState("United States");
 
   const handleOptionChange = (country) => {
     setCountry(country);
   };
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState("Mentor");
 
   const handleRoleChange = (event) => {
     setRole(event.target.value);
   };
 
-  // const [categoryList, setCategoryList] = useState("");
+  const [categoryList, setCategoryList] = useState(["K-POP", "Game"]);
 
-  const handleEmailConfirm = async () => {
-    const response = await emailCheck({ email: email });
-    if (response.data.success === false) {
-      setError(
-        "email",
-        { message: "Can't use this email" },
-        { shouldFocus: true }
-      );
-      return false;
-    } else {
+  const handlecategoryList = (newCategoryList) => {
+    setCategoryList(newCategoryList);
+  };
+
+  const [open, setOpen] = useState(false);
+  const handleOk = () => {
+    navigate("/", { replace: true });
+  };
+  const handleClose = (event, reason) => {
+    if (reason !== "clickaway") {
+      setOpen(false);
+      navigate("/", { replace: true });
+    }
+  };
+
+  const handleEmailConfirm = async (email) => {
+    try {
+      const response = await emailCheck(email);
+
+      console.log("Response:", response);
       return true;
+    } catch (error) {
+      if (error?.response?.data?.status === "fail") {
+        setError(
+          "email",
+          { message: "User using this email already exists" },
+          { shouldFocus: true }
+        );
+        return false;
+      }
+      return false;
     }
   };
 
@@ -66,35 +91,39 @@ const SignupForm = ({ inputProps }) => {
   const onSubmit = async () => {
     try {
       //email과 password 값 유효 먼저 체크
-      const emailIsValid = await handleEmailConfirm(); //
-      const passwordIsValid = await handlePasswordConfirm();
+      const emailIsValid = await handleEmailConfirm(email);
+      const passwordIsValid = await handlePasswordConfirm(password);
 
       if (emailIsValid && passwordIsValid) {
+        // age format 생년월일 문자열로 변환하여 전달
+        let birth = null;
+        if (age && age.$d) {
+          birth = age.format("YYYY-MM-DD");
+        }
+
         const response = await register({
           firstName: firstName,
           lastName: lastName,
           email: email,
           password: password,
           role: role,
-          country: country,
-          age: age,
-          // categoryList: categoryList,
-          categoryList: ["Sports", "IDOL", "K-POP"],
+          country: nameToCode(country),
+          age: 20,
+          categoryList: categoryList,
           phone: phone,
           introduction: null,
           profileImage: null,
         });
 
-        if (response.data.success === true) {
+        if (response?.data?.status === "success") {
           // 성공적으로 회원가입한 경우 메인 페이지로 이동
-          alert("정상적으로 회원가입 되었습니다.");
-          navigate("/");
+          setOpen(true);
         } else {
           // 회원 가입 실패
           console.error("sign up failed");
         }
       } else {
-        console.error("email is not valid");
+        console.log(error);
       }
     } catch (error) {
       // 에러 처리
@@ -131,6 +160,11 @@ const SignupForm = ({ inputProps }) => {
 
   return (
     <>
+      <Toast open={open} message="Sign up success" handleClose={handleClose}>
+        <button color="inherit" size="small" onClick={handleOk}>
+          OKAY
+        </button>
+      </Toast>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           <div className="max-w-[500px]">
@@ -187,8 +221,15 @@ const SignupForm = ({ inputProps }) => {
               selected={country}
               onSelectedChange={handleOptionChange}
             />
-
-            <SelectTag />
+            <section className="mt-10 mb-10">
+              <Title className="mb-10">Choose Your Favorites!</Title>
+              <SelectTag
+                id="categoryList"
+                name="categoryList"
+                selected={categoryList}
+                onSelectedChange={handlecategoryList}
+              />
+            </section>
             <Button color="orange" size="xl">
               Sign Up
             </Button>

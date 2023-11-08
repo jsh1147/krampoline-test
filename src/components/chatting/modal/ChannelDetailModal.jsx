@@ -12,7 +12,7 @@ const customStyles = {
     left: "50%",
     width: "calc(100% - 50rem)",
     minWidth: "50%",
-    height: "70vh",
+    height: "80vh",
     right: "auto",
     bottom: "auto",
     marginRight: "-50%",
@@ -65,11 +65,9 @@ const ChannelDetailModal = ({ modalIsOpen, handleModalClose }) => {
     >
       <article className="grid grid-rows-[50%_4fr_1fr] gap-8 h-full p-2">
         {channelInfo?.imageUrl ? (
-          <img
-            src={channelInfo.imageUrl}
-            alt="채널 이미지"
-            className="w-full h-full"
-          />
+          <div className="flex w-full h-full overflow-hidden justify-center">
+            <img src={channelInfo.imageUrl} alt="채널 이미지" />
+          </div>
         ) : (
           <div className="w-full h-full bg-gray-300"></div>
         )}
@@ -81,24 +79,12 @@ const ChannelDetailModal = ({ modalIsOpen, handleModalClose }) => {
             </p>
           </section>
           <section className="flex mb-6 gap-2">
-            {channelInfo.category && (
-              <Tag className="bg-teal-700 text-white font-semibold">
-                #{channelInfo.category}
-              </Tag>
-            )}
-            {channelInfo.subcategory && (
-              <Tag className="bg-teal-500 text-white">
-                #{channelInfo.subcategory}
-              </Tag>
-            )}
+            {channelInfo.category && <Tag>{channelInfo.category}</Tag>}
+            {channelInfo.subcategory && <Tag>{channelInfo.subcategory}</Tag>}
           </section>
           <p className="text-gray-700">
             {channelInfo.data?.content ? channelInfo.data.content : ""}
           </p>
-          <section>
-            {channelInfo.data?.tag &&
-              channelInfo.data.tag.map((t) => <span key={t}>{t}</span>)}
-          </section>
         </section>
         <section className="w-full flex justify-end">
           <Button color="orange" size="base" onClick={joinChannelMutate}>
