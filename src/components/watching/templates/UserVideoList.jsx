@@ -14,7 +14,7 @@ const UserVideoList = () => {
     suspense: true,
   });
 
-  const videos = data?.data?.data?.response;
+  const videos = data?.data?.data;
 
   if (error) {
     return <Error errorMessage={error.errorMessage}></Error>;
@@ -25,27 +25,30 @@ const UserVideoList = () => {
 
   return (
     <>
-      <Title className="mb-20">Videos for you</Title>
-      <main className="w-[70%] mb-20 ">
-        <ErrorBoundary
-          fallback={<Error errorMessage="Failed to load video list" />}
-        >
-          {isError ? (
-            <Error errorMessage={error.message} />
-          ) : (
-            <>
-              <Suspense fallback={<VideoSkeleton />}>
-                <div>
-                  <Grid>
-                    {videos.map((video) => (
-                      <VideoCard key={video.videoId} video={video} />
-                    ))}
-                  </Grid>
-                </div>
-              </Suspense>
-            </>
-          )}
-        </ErrorBoundary>
+      <main className="w-full flex flex-col justify-center items-center bg-white">
+        <Title className="text-base text-paragraph mt-20">Your favorites</Title>
+        <Title className="mb-20">Videos for you</Title>
+        <div className="w-[70%] mb-20 ">
+          <ErrorBoundary
+            fallback={<Error errorMessage="Failed to load video list" />}
+          >
+            {isError ? (
+              <Error errorMessage={error.message} />
+            ) : (
+              <>
+                <Suspense fallback={<VideoSkeleton />}>
+                  <div>
+                    <Grid>
+                      {videos.map((video, index) => (
+                        <VideoCard key={index} video={video} />
+                      ))}
+                    </Grid>
+                  </div>
+                </Suspense>
+              </>
+            )}
+          </ErrorBoundary>
+        </div>
       </main>
     </>
   );

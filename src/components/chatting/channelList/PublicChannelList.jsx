@@ -29,32 +29,28 @@ const PublicChannelList = () => {
     setModalIsOpen(false);
   };
 
-  const { data, isLoading, isError, fetchNextPage, hasNextPage } =
-    useInfiniteQuery(
-      ["publicChannels", debouncedSearchCategory, deboncedSearchSubCategory],
-      ({ pageParam = "" }) =>
-        getPublicChannels({
-          pageParam,
-          searchValue: debouncedSearchCategory,
-          searchSubValue: deboncedSearchSubCategory,
-        }),
-      {
-        getNextPageParam: (lastPage) => {
-          if (lastPage.length === 0) return undefined;
-          if (!lastPage?.hasNext) return undefined;
-          const lastChannelId =
-            lastPage.messages[lastPage.messages.length - 1].id;
-          return lastChannelId;
-        },
-      }
-    );
+  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(
+    ["publicChannels", debouncedSearchCategory, deboncedSearchSubCategory],
+    ({ pageParam = "" }) =>
+      getPublicChannels({
+        pageParam,
+        searchValue: debouncedSearchCategory,
+        searchSubValue: deboncedSearchSubCategory,
+      }),
+    {
+      getNextPageParam: (lastPage) => {
+        if (lastPage.length === 0) return undefined;
+        if (!lastPage?.hasNext) return undefined;
+        const lastChannelId =
+          lastPage.channels[lastPage.channels.length - 1].id;
+        return lastChannelId;
+      },
+    }
+  );
 
   useEffect(() => {
     if (inView && hasNextPage) fetchNextPage();
   }, [inView, fetchNextPage, hasNextPage]);
-
-  if (isLoading) return <div>로딩중</div>;
-  if (isError) return <div>에러</div>;
 
   return (
     <div>
@@ -77,7 +73,6 @@ const PublicChannelList = () => {
           disabled={searchCategory === ""}
         />
       </div>
-
       <div className="w-full h-[90%] overflow-y-scroll scrollbar-hide bg-white">
         {data.pages.map((page, index) => (
           <div key={index}>

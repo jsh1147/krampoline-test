@@ -8,7 +8,7 @@ export default function Posts() {
     <Fallback
       Loader={Loader}
       Error={Error}
-      errorMessage="Failed to load mentoring list page"
+      errorMessage="Failed to load list page"
     >
       <PostsSection />
     </Fallback>

@@ -12,31 +12,33 @@ const Tabs = ({ handleModalOpen }) => {
   };
 
   return (
-    <div className="flex justify-between w-full border-b-2 px-3">
-      <div className="flex gap-2">
+    <div className="flex justify-between w-full">
+      <div className="flex w-full">
         {tabNames.map((type) =>
           type === channelType ? (
             <div
               key={type}
-              className="font-bold text-orange p-2 border-b-2 border-orange"
+              className="font-semibold text-orange p-3 border-b-2 border-orange min-w-fit"
             >
               {type}
             </div>
           ) : (
             <div
               key={type}
-              className="text-gray-600 p-2 border-b-2 border-green-100"
+              className="font-semibold text-gray-500 p-3 border-b-2 min-w-fit"
             >
               <button onClick={() => handleClick(type)}>{type}</button>
             </div>
           )
         )}
+        <div className="w-full border-b-2"></div>
       </div>
-      <button className="flex items-center" onClick={handleModalOpen}>
-        <span className="text-sm text-gray-600">Create Channel</span>
-        <span className="material-symbols-outlined text-2xl font-black">
-          add
-        </span>
+      <button
+        className="flex items-center min-w-fit border-b-2"
+        onClick={handleModalOpen}
+      >
+        <p className="text-sm text-gray-600">Create Channel</p>
+        <p className="material-symbols-outlined text-2xl font-black">add</p>
       </button>
     </div>
   );

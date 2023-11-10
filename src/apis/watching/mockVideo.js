@@ -7,40 +7,40 @@ export const mockVideo = {
             videoId: "1",
             url: "https://www.youtube.com/watch?v=6lw4Cbk1IzA",
             views: "25",
-            english_title: "First Page First Video",
-            korean_title: "카테고리 1 비디오 ",
-            category: "IDOL",
-            thumbnail:
+            videoTitleEng: "First Page First Video",
+            videoTitleKorean: "카테고리 1 비디오 ",
+            interests: "IDOL",
+            videoThumbnailUrl:
               "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F016%2F2023%2F08%2F10%2F20230810000405_0_20230810112103061.jpg&type=sc960_832",
           },
           {
             videoId: "2",
             url: "https://www.youtube.com/watch?v=6lw4Cbk1IzA",
             views: "25",
-            english_title: "First Page Second Video",
-            korean_title: "카테고리 1 비디오 ",
-            category: "IDOL",
-            thumbnail:
+            videoTitleEng: "First Page Second Video",
+            videoTitleKorean: "카테고리 1 비디오 ",
+            interests: "IDOL",
+            videoThumbnailUrl:
               "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F016%2F2023%2F08%2F10%2F20230810000405_0_20230810112103061.jpg&type=sc960_832",
           },
           {
             videoId: "3",
             url: "https://www.youtube.com/watch?v=exampleVideo3",
             views: "50",
-            english_title: "Second Page First Video",
-            korean_title: "카테고리 1 비디오",
-            category: "IDOL",
-            thumbnail:
+            videoTitleEng: "Second Page First Video",
+            videoTitleKorean: "카테고리 1 비디오",
+            interests: "IDOL",
+            videoThumbnailUrl:
               "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F016%2F2023%2F08%2F10%2F20230810000405_0_20230810112103061.jpg&type=sc960_832",
           },
           {
             videoId: "4",
             url: "https://www.youtube.com/watch?v=exampleVideo3",
             views: "50",
-            english_title: "Second Page Second Video",
-            korean_title: "카테고리 1 비디오",
-            category: "IDOL",
-            thumbnail:
+            videoTitleEng: "Second Page Second Video",
+            videoTitleKorean: "카테고리 1 비디오",
+            interests: "IDOL",
+            videoThumbnailUrl:
               "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F016%2F2023%2F08%2F10%2F20230810000405_0_20230810112103061.jpg&type=sc960_832",
           },
         ],
@@ -54,40 +54,40 @@ export const mockVideo = {
             videoId: "1",
             url: "https://www.youtube.com/watch?v=6lw4Cbk1IzA",
             views: "25",
-            english_title: "First Page First Video",
-            korean_title: "카테고리 1 비디오 ",
-            category: "IDOL",
-            thumbnail:
+            videoTitleEng: "First Page First Video",
+            videoTitleKorean: "카테고리 1 비디오 ",
+            interests: "IDOL",
+            videoThumbnailUrl:
               "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F016%2F2023%2F08%2F10%2F20230810000405_0_20230810112103061.jpg&type=sc960_832",
           },
           {
             videoId: "2",
             url: "https://www.youtube.com/watch?v=6lw4Cbk1IzA",
             views: "25",
-            english_title: "First Page Second Video",
-            korean_title: "카테고리 1 비디오 ",
-            category: "IDOL",
-            thumbnail:
+            videoTitleEng: "First Page Second Video",
+            videoTitleKorean: "카테고리 1 비디오 ",
+            interests: "IDOL",
+            videoThumbnailUrl:
               "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F016%2F2023%2F08%2F10%2F20230810000405_0_20230810112103061.jpg&type=sc960_832",
           },
           {
             videoId: "3",
             url: "https://www.youtube.com/watch?v=exampleVideo3",
             views: "50",
-            english_title: "Second Page First Video",
-            korean_title: "카테고리 1 비디오",
-            category: "IDOL",
-            thumbnail:
+            videoTitleEng: "Second Page First Video",
+            videoTitleKorean: "카테고리 1 비디오",
+            interests: "IDOL",
+            videoThumbnailUrl:
               "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F016%2F2023%2F08%2F10%2F20230810000405_0_20230810112103061.jpg&type=sc960_832",
           },
           {
             videoId: "4",
             url: "https://www.youtube.com/watch?v=exampleVideo3",
             views: "50",
-            english_title: "Second Page Second Video",
-            korean_title: "카테고리 1 비디오",
-            category: "IDOL",
-            thumbnail:
+            videoTitleEng: "Second Page Second Video",
+            videoTitleKorean: "카테고리 1 비디오",
+            interests: "IDOL",
+            videoThumbnailUrl:
               "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F016%2F2023%2F08%2F10%2F20230810000405_0_20230810112103061.jpg&type=sc960_832",
           },
         ],
@@ -103,40 +103,40 @@ export const mockVideo = {
             videoId: "1",
             url: "https://www.youtube.com/watch?v=6lw4Cbk1IzA",
             views: "25",
-            english_title: "First Page First Video",
-            korean_title: "카테고리 2 비디오 ",
-            category: "Game",
-            thumbnail:
+            videoTitleEng: "First Page First Video",
+            videoTitleKorean: "카테고리 2 비디오 ",
+            interests: "Game",
+            videoThumbnailUrl:
               "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F016%2F2023%2F08%2F10%2F20230810000405_0_20230810112103061.jpg&type=sc960_832",
           },
           {
             videoId: "2",
             url: "https://www.youtube.com/watch?v=6lw4Cbk1IzA",
             views: "25",
-            english_title: "First Page Second Video",
-            korean_title: "카테고리 2 비디오 ",
-            category: "Game",
-            thumbnail:
+            videoTitleEng: "First Page Second Video",
+            videoTitleKorean: "카테고리 2 비디오 ",
+            interests: "Game",
+            videoThumbnailUrl:
               "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F016%2F2023%2F08%2F10%2F20230810000405_0_20230810112103061.jpg&type=sc960_832",
           },
           {
             videoId: "3",
             url: "https://www.youtube.com/watch?v=exampleVideo3",
             views: "50",
-            english_title: "Second Page First Video",
-            korean_title: "카테고리 2 비디오",
-            category: "Game",
-            thumbnail:
+            videoTitleEng: "Second Page First Video",
+            videoTitleKorean: "카테고리 2 비디오",
+            interests: "Game",
+            videoThumbnailUrl:
               "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F016%2F2023%2F08%2F10%2F20230810000405_0_20230810112103061.jpg&type=sc960_832",
           },
           {
             videoId: "4",
             url: "https://www.youtube.com/watch?v=exampleVideo3",
             views: "50",
-            english_title: "Second Page Second Video",
-            korean_title: "카테고리 2 비디오",
-            category: "Game",
-            thumbnail:
+            videoTitleEng: "Second Page Second Video",
+            videoTitleKorean: "카테고리 2 비디오",
+            interests: "Game",
+            videoThumbnailUrl:
               "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F016%2F2023%2F08%2F10%2F20230810000405_0_20230810112103061.jpg&type=sc960_832",
           },
         ],
@@ -150,40 +150,40 @@ export const mockVideo = {
             videoId: "1",
             url: "https://www.youtube.com/watch?v=6lw4Cbk1IzA",
             views: "25",
-            english_title: "First Page First Video",
-            korean_title: "카테고리 2 비디오 ",
-            category: "Game",
-            thumbnail:
+            videoTitleEng: "First Page First Video",
+            videoTitleKorean: "카테고리 2 비디오 ",
+            interests: "Game",
+            videoThumbnailUrl:
               "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F016%2F2023%2F08%2F10%2F20230810000405_0_20230810112103061.jpg&type=sc960_832",
           },
           {
             videoId: "2",
             url: "https://www.youtube.com/watch?v=6lw4Cbk1IzA",
             views: "25",
-            english_title: "First Page Second Video",
-            korean_title: "카테고리 2 비디오 ",
-            category: "Game",
-            thumbnail:
+            videoTitleEng: "First Page Second Video",
+            videoTitleKorean: "카테고리 2 비디오 ",
+            interests: "Game",
+            videoThumbnailUrl:
               "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F016%2F2023%2F08%2F10%2F20230810000405_0_20230810112103061.jpg&type=sc960_832",
           },
           {
             videoId: "3",
             url: "https://www.youtube.com/watch?v=exampleVideo3",
             views: "50",
-            english_title: "Second Page First Video",
-            korean_title: "카테고리 2 비디오",
-            category: "Game",
-            thumbnail:
+            videoTitleEng: "Second Page First Video",
+            videoTitleKorean: "카테고리 2 비디오",
+            interests: "Game",
+            videoThumbnailUrl:
               "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F016%2F2023%2F08%2F10%2F20230810000405_0_20230810112103061.jpg&type=sc960_832",
           },
           {
             videoId: "4",
             url: "https://www.youtube.com/watch?v=exampleVideo3",
             views: "50",
-            english_title: "Second Page Second Video",
-            korean_title: "카테고리 2 비디오",
-            category: "Game",
-            thumbnail:
+            videoTitleEng: "Second Page Second Video",
+            videoTitleKorean: "카테고리 2 비디오",
+            interests: "Game",
+            videoThumbnailUrl:
               "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F016%2F2023%2F08%2F10%2F20230810000405_0_20230810112103061.jpg&type=sc960_832",
           },
         ],
@@ -199,40 +199,40 @@ export const mockVideo = {
             videoId: "1",
             url: "https://www.youtube.com/watch?v=6lw4Cbk1IzA",
             views: "25",
-            english_title: "First Page First Video",
-            korean_title: "카테고리 3 비디오 ",
-            category: "K-POP",
-            thumbnail:
+            videoTitleEng: "First Page First Video",
+            videoTitleKorean: "카테고리 3 비디오 ",
+            interests: "K-POP",
+            videoThumbnailUrl:
               "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F016%2F2023%2F08%2F10%2F20230810000405_0_20230810112103061.jpg&type=sc960_832",
           },
           {
             videoId: "2",
             url: "https://www.youtube.com/watch?v=6lw4Cbk1IzA",
             views: "25",
-            english_title: "First Page Second Video",
-            korean_title: "카테고리 3 비디오 ",
-            category: "K-POP",
-            thumbnail:
+            videoTitleEng: "First Page Second Video",
+            videoTitleKorean: "카테고리 3 비디오 ",
+            interests: "K-POP",
+            videoThumbnailUrl:
               "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F016%2F2023%2F08%2F10%2F20230810000405_0_20230810112103061.jpg&type=sc960_832",
           },
           {
             videoId: "3",
             url: "https://www.youtube.com/watch?v=exampleVideo3",
             views: "50",
-            english_title: "Second Page First Video",
-            korean_title: "카테고리 3 비디오",
-            category: "K-POP",
-            thumbnail:
+            videoTitleEng: "Second Page First Video",
+            videoTitleKorean: "카테고리 3 비디오",
+            interests: "K-POP",
+            videoThumbnailUrl:
               "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F016%2F2023%2F08%2F10%2F20230810000405_0_20230810112103061.jpg&type=sc960_832",
           },
           {
             videoId: "4",
             url: "https://www.youtube.com/watch?v=exampleVideo3",
             views: "50",
-            english_title: "Second Page Second Video",
-            korean_title: "카테고리 3",
-            category: "K-POP",
-            thumbnail:
+            videoTitleEng: "Second Page Second Video",
+            videoTitleKorean: "카테고리 3",
+            interests: "K-POP",
+            videoThumbnailUrl:
               "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F016%2F2023%2F08%2F10%2F20230810000405_0_20230810112103061.jpg&type=sc960_832",
           },
         ],
@@ -246,40 +246,40 @@ export const mockVideo = {
             videoId: "1",
             url: "https://www.youtube.com/watch?v=6lw4Cbk1IzA",
             views: "25",
-            english_title: "First Page First Video",
-            korean_title: "카테고리 3 비디오 ",
-            category: "K-POP",
-            thumbnail:
+            videoTitleEng: "First Page First Video",
+            videoTitleKorean: "카테고리 3 비디오 ",
+            interests: "K-POP",
+            videoThumbnailUrl:
               "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F016%2F2023%2F08%2F10%2F20230810000405_0_20230810112103061.jpg&type=sc960_832",
           },
           {
             videoId: "2",
             url: "https://www.youtube.com/watch?v=6lw4Cbk1IzA",
             views: "25",
-            english_title: "First Page Second Video",
-            korean_title: "카테고리 3 비디오 ",
-            category: "K-POP",
-            thumbnail:
+            videoTitleEng: "First Page Second Video",
+            videoTitleKorean: "카테고리 3 비디오 ",
+            interests: "K-POP",
+            videoThumbnailUrl:
               "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F016%2F2023%2F08%2F10%2F20230810000405_0_20230810112103061.jpg&type=sc960_832",
           },
           {
             videoId: "3",
             url: "https://www.youtube.com/watch?v=exampleVideo3",
             views: "50",
-            english_title: "Second Page First Video",
-            korean_title: "카테고리 3 비디오",
-            category: "K-POP",
-            thumbnail:
+            videoTitleEng: "Second Page First Video",
+            videoTitleKorean: "카테고리 3 비디오",
+            interests: "K-POP",
+            videoThumbnailUrl:
               "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F016%2F2023%2F08%2F10%2F20230810000405_0_20230810112103061.jpg&type=sc960_832",
           },
           {
             videoId: "4",
             url: "https://www.youtube.com/watch?v=exampleVideo3",
             views: "50",
-            english_title: "Second Page Second Video",
-            korean_title: "카테고리 3",
-            category: "K-POP",
-            thumbnail:
+            videoTitleEng: "Second Page Second Video",
+            videoTitleKorean: "카테고리 3",
+            interests: "K-POP",
+            videoThumbnailUrl:
               "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F016%2F2023%2F08%2F10%2F20230810000405_0_20230810112103061.jpg&type=sc960_832",
           },
         ],
@@ -295,7 +295,7 @@ export const mockDetailVideo = {
   1: {
     videoId: "1",
     url: "https://www.youtube.com/watch?v=6lw4Cbk1IzA",
-    category: "K-POP",
+    interests: "K-POP",
     startTime: "10",
     endTime: "20",
     subtitles: [
@@ -314,38 +314,40 @@ export const mockDetailVideo = {
         engSubtitleContent: "test subtitle",
       },
     ],
-  },
-  2: {
-    videoId: "2",
-    url: "https://www.youtube.com/watch?v=6lw4Cbk1IzA",
-    views: "25",
-    english_title: "First Page First Video",
-    korean_title: "2번째 비디오 ",
-    category: "K-POP",
-    startTime: "720",
-    endTime: "730",
-    thumbnail:
-      "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F016%2F2023%2F08%2F10%2F20230810000405_0_20230810112103061.jpg&type=sc960_832",
-  },
-  3: {
-    videoId: "3",
-    url: "https://www.youtube.com/watch?v=exampleVideo3",
-    views: "50",
-    english_title: "Second Page First Video",
-    korean_title: "세번째 비디오",
-    category: "IDOL",
-    thumbnail:
-      "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F016%2F2023%2F08%2F10%2F20230810000405_0_20230810112103061.jpg&type=sc960_832",
-  },
-  4: {
-    videoId: "4",
-    url: "https://www.youtube.com/watch?v=exampleVideo3",
-    views: "50",
-    english_title: "Second Page Second Video",
-    korean_title: "4번째 비디오",
-    category: "Game",
-    thumbnail:
-      "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F016%2F2023%2F08%2F10%2F20230810000405_0_20230810112103061.jpg&type=sc960_832",
+    related: [
+      {
+        videoId: "2",
+        url: "https://www.youtube.com/watch?v=6lw4Cbk1IzA",
+        views: "25",
+        videoTitleEng: "First Page First Video",
+        videoTitleKorean: "2번째 비디오 ",
+        interests: "K-POP",
+        startTime: "720",
+        endTime: "730",
+        videoThumbnailUrl:
+          "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F016%2F2023%2F08%2F10%2F20230810000405_0_20230810112103061.jpg&type=sc960_832",
+      },
+      {
+        videoId: "3",
+        url: "https://www.youtube.com/watch?v=exampleVideo3",
+        views: "50",
+        videoTitleEng: "Second Page First Video",
+        videoTitleKorean: "세번째 비디오",
+        interests: "K-POP",
+        videoThumbnailUrl:
+          "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F016%2F2023%2F08%2F10%2F20230810000405_0_20230810112103061.jpg&type=sc960_832",
+      },
+      {
+        videoId: "4",
+        url: "https://www.youtube.com/watch?v=exampleVideo3",
+        views: "50",
+        videoTitleEng: "Second Page Second Video",
+        videoTitleKorean: "4번째 비디오",
+        interests: "K-POP",
+        videoThumbnailUrl:
+          "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F016%2F2023%2F08%2F10%2F20230810000405_0_20230810112103061.jpg&type=sc960_832",
+      },
+    ],
   },
 };
 

@@ -24,7 +24,7 @@ export async function getPostsReq(category, search, page) {
     return page < 2 ? mockResponse(postsData) : mockResponse([]);
   } else {
     return await instance.get(
-      `/mentorings/post?category=${category}&search=${search}&page=${page}`
+      `/mentorings?category=${category}&search=${search}&page=${page}`
     );
   }
 }
@@ -34,7 +34,7 @@ export async function getPostReq(postId) {
     await new Promise((resolve) => setTimeout(resolve, 500));
     return mockResponse(postData);
   } else {
-    return await instance.get(`/mentorings/post/${postId}`);
+    return await instance.get(`/mentorings/${postId}`);
   }
 }
 
@@ -44,7 +44,7 @@ export async function addPostReq(data) {
     return mockResponse(mutateRes);
   } else {
     const { title, content } = data;
-    return await instance.post("/mentorings/post", {
+    return await instance.post("/mentorings", {
       title,
       content,
     });
@@ -57,7 +57,7 @@ export async function editPostReq(postId, data) {
     return mockResponse(mutateRes);
   } else {
     const { title, content } = data;
-    return await instance.put(`/mentorings/post/${postId}`, {
+    return await instance.put(`/mentorings/${postId}`, {
       title,
       content,
     });
@@ -69,7 +69,7 @@ export async function deletePostReq(postId) {
     await new Promise((resolve) => setTimeout(resolve, 500));
     return mockResponse(null);
   } else {
-    return await instance.delete(`/mentorings/post/${postId}`);
+    return await instance.delete(`/mentorings/${postId}`);
   }
 }
 
@@ -78,6 +78,6 @@ export async function donePostReq(postId) {
     await new Promise((resolve) => setTimeout(resolve, 500));
     return mockResponse(null);
   } else {
-    return await instance.patch(`/mentorings/post/${postId}/done`);
+    return await instance.patch(`/mentorings/${postId}/done`);
   }
 }

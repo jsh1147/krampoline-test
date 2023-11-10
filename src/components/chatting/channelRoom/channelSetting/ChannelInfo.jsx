@@ -5,7 +5,6 @@ import ChannelSettingItemBox from "./ChannelSettingItemBox";
 import Button from "../../../common/Button";
 import { useAtomValue } from "jotai";
 import { userIdAtom } from "../../../../store/chatting/chatting";
-import Tag from "../../../common/Tag";
 
 const ChannelInfo = ({ channelInfo, handleEdit }) => {
   const userId = useAtomValue(userIdAtom);

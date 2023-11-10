@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { useAtomValue } from "jotai";
 
+import { authAtom } from "../../../store";
 import { getUser } from "../../../apis/mentoring/post";
 import { useInputsState } from "../../../hooks/useInputsState";
 import { userRole, searchCategory } from "../../../constants/mentoring";
@@ -10,8 +12,6 @@ import Fallback from "../../common/Fallback";
 import Error from "../../common/Error";
 import PostCardSkeletons from "./PostCardSkeletons";
 import PostList from "./PostList";
-import { useAtomValue } from "jotai";
-import { authAtom } from "../../../store";
 import Button from "../../common/Button";
 
 export default function PostsSection() {

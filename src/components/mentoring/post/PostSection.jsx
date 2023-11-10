@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 
 import { uidAtom } from "../../../store";
-import { getPostReq, getUser } from "../../../apis/mentoring/post";
+import { getUser, getPostReq } from "../../../apis/mentoring/post";
 import { userRole, postState } from "../../../constants/mentoring";
 
 import PostDoneSide from "./PostDoneSide";

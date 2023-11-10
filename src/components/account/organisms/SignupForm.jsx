@@ -23,14 +23,14 @@ const SignupForm = ({ inputProps }) => {
   const phone = watch("phone");
   const password = watch("password");
   const passwordCheck = watch("passwordcheck");
-  const age = watch("age");
+  const birthDate = watch("birthDate");
 
   const [country, setCountry] = useState("United States");
 
   const handleOptionChange = (country) => {
     setCountry(country);
   };
-  const [role, setRole] = useState("Mentor");
+  const [role, setRole] = useState("MENTOR");
 
   const handleRoleChange = (event) => {
     setRole(event.target.value);
@@ -97,8 +97,8 @@ const SignupForm = ({ inputProps }) => {
       if (emailIsValid && passwordIsValid) {
         // age format 생년월일 문자열로 변환하여 전달
         let birth = null;
-        if (age && age.$d) {
-          birth = age.format("YYYY-MM-DD");
+        if (birthDate && birthDate.$d) {
+          birth = birthDate.format("YYYY-MM-DD");
         }
 
         const response = await register({
@@ -108,7 +108,7 @@ const SignupForm = ({ inputProps }) => {
           password: password,
           role: role,
           country: nameToCode(country),
-          age: 20,
+          birthDate: birth,
           categoryList: categoryList,
           phone: phone,
           introduction: null,
@@ -120,16 +120,22 @@ const SignupForm = ({ inputProps }) => {
           setOpen(true);
         } else {
           // 회원 가입 실패
-          console.error("sign up failed");
+          console.error("sign up failed", error);
         }
       } else {
+        // email과 password 검사 실패
         console.log(error);
       }
     } catch (error) {
       // 에러 처리
-      console.error(error);
       // 회원 가입 요청 실패
-      console.error("register request failed");
+      // 잘못 된 input 값 입력 했을 때 -> 오류 메세지 출력, 토스트로 띄우기
+      const errors = error?.response?.data?.data;
+      Object.entries(errors).forEach(([key, message]) => {
+        console.log(`${key}: ${message}`);
+      });
+
+      console.error("register request failed", error);
     }
   };
 
@@ -184,34 +190,34 @@ const SignupForm = ({ inputProps }) => {
               )
               .map(renderController)}
             <Controller
-              name="age"
+              name="birthDate"
               control={methods.control}
               render={(field) => (
                 <BasicDatePicker
                   {...field}
                   control={methods.control}
-                  name="age"
-                  value={age}
+                  name="birthDate"
+                  value={birthDate}
                 />
               )}
             />
             <RadioButton
               name="role"
-              value="Mentor"
+              value="MENTOR"
               type="radio"
-              checked={role === "Mentor"}
+              checked={role === "MENTOR"}
               onChange={handleRoleChange}
-              inputProps={{ "aria-label": "Mentor" }}
+              inputProps={{ "aria-label": "MENTOR" }}
             >
               Mentor
             </RadioButton>
             <RadioButton
               name="role"
-              value="Mentee"
+              value="MENTEE"
               type="radio"
-              checked={role === "Mentee"}
+              checked={role === "MENTEE"}
               onChange={handleRoleChange}
-              inputProps={{ "aria-label": "Mentee" }}
+              inputProps={{ "aria-label": "MENTEE" }}
             >
               Mentee
             </RadioButton>

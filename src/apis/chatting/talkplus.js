@@ -6,12 +6,12 @@ export const client = new TalkPlus.Client({
   appId: import.meta.env.VITE_TALKPLUS_APP_ID,
 });
 
-export const login = async () => {
+export const login = async ({ userId, username, profileImageUrl }) => {
   try {
     const { user } = await client.loginAnonymous({
-      userId: "Admin",
-      username: "테스트 이름",
-      profileImageUrl: "https://picsum.photos/id/24/40",
+      userId: String(userId),
+      username,
+      profileImageUrl,
     });
     return user;
   } catch (error) {
@@ -20,6 +20,39 @@ export const login = async () => {
 };
 
 export const getPublicChannels = async ({
+  lastChannelId,
+  searchValue,
+  searchSubValue,
+}) => {
+  const body = { limit: 30 };
+  if (lastChannelId) {
+    body.lastChannelId = lastChannelId;
+  }
+  if (searchValue && searchValue.length > 0) {
+    body.category = searchValue;
+  }
+
+  if (searchSubValue && searchSubValue.length > 0) {
+    body.subcategory = searchSubValue;
+  }
+
+  const data = await client.getPublicChannels(body);
+  return data;
+};
+
+export const getChannelDetail = async (channelId) => {
+  try {
+    const { channel } = await client.getChannel({
+      channelId,
+    });
+    return channel;
+  } catch (error) {
+    console.log(error);
+    return {};
+  }
+};
+
+export const getJoinedChannels = async ({
   lastChannelId,
   searchValue,
   searchSubValue,
@@ -36,31 +69,8 @@ export const getPublicChannels = async ({
     if (searchSubValue && searchSubValue.length > 0) {
       body.subcategory = searchSubValue;
     }
-
-    const data = await client.getPublicChannels(body);
+    const data = await client.getChannels(body);
     return data;
-  } catch (error) {
-    console.log(error);
-    return [];
-  }
-};
-
-export const getChannelDetail = async (channelId) => {
-  try {
-    const { channel } = await client.getChannel({
-      channelId,
-    });
-    return channel;
-  } catch (error) {
-    console.log(error);
-    return {};
-  }
-};
-
-export const getJoinedChannels = async () => {
-  try {
-    const { channels } = await client.getChannels({ limit: 30 });
-    return channels;
   } catch (error) {
     console.log(error);
     return [];
@@ -81,7 +91,7 @@ export const joinChannel = async (channelId) => {
 };
 
 export const createChannel = async (data) => {
-  const { name, imageUrl = "", content = "", category } = data;
+  const { name, imageUrl, content, category } = data;
   try {
     const data = await client.createChannel({
       channelId: uuid(name, uuid.DNS),
@@ -105,7 +115,6 @@ export const leaveChannel = async (channelId) => {
   try {
     const data = await client.leaveChannel({
       channelId: channelId,
-      deleteChannelIfEmpty: true,
     });
     return data;
   } catch (error) {
@@ -133,7 +142,6 @@ export const updateChannel = async (channelId, data) => {
 };
 
 export const getMessages = async ({ channelId, lastMessageId }) => {
-  console.log("getMessages", channelId, lastMessageId);
   try {
     const body = {
       channelId,

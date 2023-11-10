@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useForm, FormProvider, Controller } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import { userInfo } from "../../../apis/mypage";
 import { InputBox, InputOnly } from "../atoms/InputBox";
 import Button from "../../common/Button";
+import { editInfo } from "../../../apis/mypage";
 import Dropdown from "../../common/Dropdown";
 import RadioButton from "../atoms/RadioButton";
 import SelectTag from "../atoms/SelectTag";
@@ -13,62 +13,91 @@ import Title from "../atoms/Title";
 import BasicDatePicker from "../atoms/DatePicker";
 import dayjs from "dayjs";
 import { codeToName, nameToCode } from "../../../utils/account/country";
-
-// 프로필 사진 등록
+import { passwordCheck } from "../../../apis/user";
 
 const InformationFixForm = ({ data, inputProps }) => {
-  const defaultValues = Object.keys(data?.user || {}).reduce((acc, key) => {
-    acc[key] = data?.user[key] || "";
+  const info = data?.data?.data;
+
+  const defaultValues = Object.keys(info || {}).reduce((acc, key) => {
+    acc[key] = info[key] || "";
     return acc;
   }, {});
 
   const methods = useForm({
     defaultValues: {
       ...defaultValues,
-      age: dayjs(data?.user?.age),
+      password: "",
+      birthDate: dayjs(info?.birthDate),
     },
   });
 
   const navigate = useNavigate();
-  const { watch, control, handleSubmit, setError, clearErrors } = methods;
+  const {
+    watch,
+    control,
+    handleSubmit,
+    formState: { errors },
+    setError,
+    clearErrors,
+  } = methods;
   const firstName = watch("firstName");
   const lastName = watch("lastName");
   const phone = watch("phone");
   const password = watch("password");
+  const newPassword = watch("newPassword");
   const passwordCheck = watch("passwordcheck");
-  const age = watch("age");
+  const birthDate = watch("birthDate");
   const introduction = watch("introduction");
 
-  const [profileImage, setProfileImage] = useState(data?.user?.profileImage);
+  const [profileImage, setProfileImage] = useState(info?.profileImage);
 
   const handleFileChange = (event) => {
-    const file = event.target.files[0]; // 사용자가 선택한 파일 가져오기
+    const file = event.target.files[0];
     if (file) {
       setProfileImage(file);
     }
   };
 
-  const [email, setEmail] = useState(data?.user?.email);
+  const [email, setEmail] = useState(info?.email);
 
-  const [country, setCountry] = useState(codeToName(data?.user?.country));
+  const [country, setCountry] = useState(codeToName(info?.country));
 
   const handleOptionChange = (country) => {
     setCountry(country);
   };
-  const [role, setRole] = useState(data?.user?.role);
+  const [role, setRole] = useState(info?.role);
 
   const handleRoleChange = (event) => {
     setRole(event.target.value);
   };
-  const [categoryList, setCategoryList] = useState(data?.user?.categoryList);
+  const [categoryList, setCategoryList] = useState(info?.categoryList);
 
   const handlecategoryList = (newCategoryList) => {
     setCategoryList(newCategoryList);
   };
 
+  const handlePasswordCheck = async (password) => {
+    try {
+      const response = await passwordCheck(password);
+
+      console.log("Response:", response);
+      return true;
+    } catch (error) {
+      if (error?.response?.data?.status === "fail") {
+        setError(
+          "password",
+          { message: "please enter your origin password" },
+          { shouldFocus: true }
+        );
+        return false;
+      }
+      return false;
+    }
+  };
+
   const handlePasswordConfirm = () => {
-    if (password && passwordCheck) {
-      if (password !== passwordCheck) {
+    if (newPassword && passwordCheck) {
+      if (newPassword !== passwordCheck) {
         setError(
           "passwordcheck",
           { message: "Passwords do not match" },
@@ -85,64 +114,67 @@ const InformationFixForm = ({ data, inputProps }) => {
   const [changedValues, setChangedValues] = useState({});
 
   useEffect(() => {
-    let birth = null;
-    if (age && age.$d) {
-      birth = dayjs(age.$d).format("YYYY-MM-DD");
+    const submitData = new FormData();
+
+    if (profileImage instanceof File) {
+      submitData.append("file", profileImage);
+    } else {
+      submitData.append("file", profileImage);
     }
-    setChangedValues({
-      firstName,
-      lastName,
-      phone,
-      password,
-      age: birth,
-      email,
-      role,
-      introduction,
-      country: nameToCode(country),
-      categoryList,
-      profileImage,
-    });
+
+    submitData.append(
+      "requestDTO",
+      new Blob(
+        [
+          JSON.stringify({
+            firstName: firstName,
+            lastName: lastName,
+            password: newPassword,
+            role: role,
+            country: nameToCode(country),
+            birthDate: birthDate ? dayjs(birthDate).format("YYYY-MM-DD") : "",
+            categoryList: categoryList,
+            phone: phone,
+            introduction: introduction,
+          }),
+        ],
+        {
+          type: "application/json",
+        }
+      )
+    );
+
+    setChangedValues(submitData);
   }, [
     firstName,
     lastName,
-    phone,
-    password,
-    age,
-    introduction,
-    role,
+    newPassword,
     country,
-    email,
+    birthDate,
+    phone,
+    role,
     categoryList,
+    introduction,
     profileImage,
   ]);
+  console.log(profileImage);
 
-  const mutation = useMutation((newData) => userInfo(newData), {
+  const mutation = useMutation(editInfo, {
     onSuccess: () => {
       alert("정보가 성공적으로 수정되었습니다.");
+      navigate("/mypage/information");
     },
     onError: () => {
       alert("정보 수정에 실패했습니다.");
     },
   });
 
-  const onSubmit = async () => {
+  const onSubmit = (formData) => {
+    const OriginPasswordCheck = handlePasswordCheck(password);
     const passwordIsValid = handlePasswordConfirm();
 
-    const formData = new FormData();
-
-    for (const [key, value] of Object.entries(changedValues)) {
-      formData.append(key, value);
-    }
-
-    if (profileImage instanceof File) {
-      formData.append("profileImage", profileImage);
-    }
-
-    if (passwordIsValid) {
-      mutation.mutate({
-        data: formData,
-      });
-      console.log(changedValues);
+    if (passwordIsValid && OriginPasswordCheck) {
+      mutation.mutate(changedValues);
     }
   };
 
@@ -194,32 +226,32 @@ const InformationFixForm = ({ data, inputProps }) => {
               )
               .map(renderController)}
             <Controller
-              name="age"
+              name="birthDate"
               control={methods.control}
               render={(field) => (
                 <BasicDatePicker
                   {...field}
                   control={methods.control}
-                  name="age"
-                  value="age"
+                  name="birthDate"
+                  value="birthDate"
                 />
               )}
             />
             <RadioButton
               name="role"
-              value="Mentor"
+              value="MENTOR"
               type="radio"
               onChange={handleRoleChange}
-              checked={role === "Mentor"}
+              checked={role === "MENTOR"}
             >
               Mentor
             </RadioButton>
             <RadioButton
               name="role"
-              value="Mentee"
+              value="MENTEE"
               type="radio"
               onChange={handleRoleChange}
-              checked={role === "Mentee"}
+              checked={role === "MENTEE"}
             >
               Mentee
             </RadioButton>

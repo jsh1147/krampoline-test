@@ -30,8 +30,8 @@ export default function PostList({ category, search }) {
     <div className="flex flex-col">
       {data.pages
         .flatMap((page) => page.data.data)
-        .map((post) => (
-          <PostCard key={`postcard-${post.postId}`} post={post} />
+        .map((post, index) => (
+          <PostCard key={`postcard-${index}`} post={post} />
         ))}
       {isFetchingNextPage && <PostCardSkeletons />}
       <div ref={ref}></div>

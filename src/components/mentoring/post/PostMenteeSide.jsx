@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import toast from "react-hot-toast";
 
@@ -70,7 +70,7 @@ export default function PostMenteeSide({ data }) {
           <img
             className="w-56 p-8 rounded-full"
             src={data.writerDTO.profileImage}
-            alt={`작성자 프로필 이미지`}
+            alt="작성자 프로필 이미지"
           ></img>
           <div className="w-full px-4 flex flex-col justify-center space-y-3">
             <h1 className="text-4xl font-bold text-green-700">{data.title}</h1>

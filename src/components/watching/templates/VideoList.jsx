@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import VideoGrid from "../organisms/VideoGrid";
 import { getVideos } from "../../../apis/watching/videos";
-import { useParams } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
 import Error from "../../account/atoms/Error";
 import { Suspense } from "react";
@@ -20,22 +19,22 @@ const VideoList = () => {
   const handleOptionChange = (selectedCategory) => {
     setCategory(selectedCategory);
   };
-
   const { data, error, fetchNextPage, isFetchingNextPage, hasNextPage } =
     useInfiniteQuery(
       ["getVideos", category],
-      ({ pageParam = 1 }) => {
+      ({ pageParam = 0 }) => {
         const categoryId = nameToCategoryId(category);
-        return getVideos.fetchPostingsListWithScroll(pageParam, categoryId);
+        return getVideos(pageParam, categoryId);
       },
       {
         getNextPageParam: (lastPage, allPages) => {
-          if (lastPage.last) return undefined;
-          return allPages.length + 1;
+          if (!lastPage.isLast) return lastPage.nextPage;
+          return undefined;
         },
         onSuccess: (data) => {
-          console.log(data); // 응답 데이터 확인
+          console.log(data);
         },
+
         retry: false,
       }
     );
@@ -46,8 +45,13 @@ const VideoList = () => {
     }
   }, [inView, fetchNextPage, isFetchingNextPage, hasNextPage]);
 
+  const videos = data?.pages.map((page) => page.videos).flat();
+
   return (
     <>
+      <Title className="mt-20 text-base text-paragraph">
+        You can choose a video
+      </Title>
       <Title className="mb-20">Videos by Category</Title>
       <main className="w-[70%]">
         <ErrorBoundary
@@ -56,7 +60,7 @@ const VideoList = () => {
           {error ? (
             <Error errorMessage={error.message} />
           ) : (
-            <>
+            <ErrorBoundary>
               <Suspense fallback={<VideoSkeleton />}>
                 <div>
                   <Dropdown
@@ -67,7 +71,7 @@ const VideoList = () => {
                     className="border-2 bg-white mb-10"
                   />
                   <VideoGrid
-                    videos={data?.pages}
+                    videos={videos}
                     fetchNextPage={fetchNextPage}
                     hasNextPage={hasNextPage}
                     isFetchingNextPage={isFetchingNextPage}
@@ -76,7 +80,7 @@ const VideoList = () => {
                   />
                 </div>
               </Suspense>
-            </>
+            </ErrorBoundary>
           )}
         </ErrorBoundary>
       </main>

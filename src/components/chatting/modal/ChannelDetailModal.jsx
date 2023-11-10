@@ -2,7 +2,7 @@ import Modal from "react-modal";
 import { useAtom, useAtomValue } from "jotai";
 import { getChannelDetail, joinChannel } from "../../../apis/chatting/talkplus";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { channelIdAtom, userIdAtom } from "../../../store/chatting/chatting";
+import { channelIdAtom } from "../../../store/chatting/chatting";
 import Button from "../../common/Button";
 import Tag from "../../common/Tag";
 
@@ -28,7 +28,6 @@ const customStyles = {
 
 const ChannelDetailModal = ({ modalIsOpen, handleModalClose }) => {
   const [channelId, setChannelId] = useAtom(channelIdAtom);
-  const userId = useAtomValue(userIdAtom);
 
   const {
     data: channelInfo,

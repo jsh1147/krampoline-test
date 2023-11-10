@@ -96,4 +96,116 @@ export const postData = {
   ],
 };
 
+export const postCountsData = { contactCount: 3, doneCount: 3 };
+
+export const ContactsData = [1, 2, 3].map((val) => ({
+  postId: 1,
+  title: "글 제목",
+  writerDTO: {
+    mentorId: 1,
+    profileImage: IMAGE_URL,
+    name: "John Doe",
+    country: "US",
+    birthDate: "2002-10-30",
+    role: "MENTOR",
+    favorites: ["IDOL", "Game"],
+  },
+  // mentee용
+  connectionId: val,
+  // mentor용
+  mentees: [
+    {
+      connectionId: 1,
+      state: "AWAIT",
+      mentee: {
+        menteeId: 2,
+        profileImage: IMAGE_URL,
+        name: "Jane",
+        country: "DK",
+        birthDate: "1999-07-16",
+        role: "MENTEE",
+        favorites: ["Game", "Sports"],
+      },
+    },
+    {
+      connectionId: 2,
+      state: "ACCEPT",
+      mentee: {
+        menteeId: 3,
+        profileImage: IMAGE_URL,
+        name: "Miho",
+        country: "JP",
+        birthDate: "2007-03-25",
+        role: "MENTEE",
+        favorites: ["Game", "K-POP"],
+      },
+    },
+    {
+      connectionId: 3,
+      state: "REFUSE",
+      mentee: {
+        menteeId: 4,
+        profileImage: IMAGE_URL,
+        name: "Michael",
+        country: "US",
+        birthDate: "1985-11-15",
+        role: "MENTEE",
+        favorites: ["Sports", "Movie"],
+      },
+    },
+  ],
+}));
+
+export const DonesData = [1, 2, 3].map((val) => ({
+  postId: 1,
+  title: "글 제목",
+  mentor: {
+    mentorId: 1,
+    profileImage: IMAGE_URL,
+    name: "John Doe",
+    country: "US",
+    birthDate: "2002-10-30",
+    role: "MENTOR",
+    favorites: ["IDOL", "Game"],
+  },
+  mentees: [
+    {
+      doneId: 1,
+      mentee: {
+        menteeId: 2,
+        profileImage: IMAGE_URL,
+        name: "Jane",
+        birthDate: "1999-07-16",
+        country: "DK",
+        role: "MENTEE",
+        favorites: ["Game", "Sports"],
+      },
+    },
+    {
+      doneId: 2,
+      mentee: {
+        menteeId: 3,
+        profileImage: IMAGE_URL,
+        name: "Miho",
+        country: "JP",
+        birthDate: "2007-03-25",
+        role: "MENTEE",
+        favorites: ["Game", "K-POP"],
+      },
+    },
+    {
+      doneId: 3,
+      mentee: {
+        menteeId: 4,
+        profileImage: IMAGE_URL,
+        name: "Michael",
+        country: "US",
+        birthDate: "1985-11-15",
+        role: "MENTEE",
+        favorites: ["Sports", "Movie"],
+      },
+    },
+  ],
+}));
+
 export const mutateRes = { postId: 1 };

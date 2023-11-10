@@ -1,8 +1,10 @@
 import Title from "../atoms/Title";
 import Button from "../../common/Button";
 import Modal from "../atoms/Modal";
+import { useForm, FormProvider, Controller } from "react-hook-form";
 import { useState } from "react";
-import { InputOnly } from "../atoms/InputBox";
+import { InputBox } from "../atoms/InputBox";
+import { passwordCheck } from "../../../apis/user";
 import { useNavigate } from "react-router-dom";
 import { codeToName } from "../../../utils/account/country";
 import { profileImageAtom } from "../../../store/index";
@@ -25,13 +27,25 @@ const InformationForm = ({ data }) => {
   const [defaultProfileImage] = useAtom(profileImageAtom);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const [password, setPassword] = useState();
+  const methods = useForm();
+  const { watch, handleSubmit, setError, control } = methods;
+  const password = watch("password");
+
   const openModalHandler = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleOnChange = (event) => {
-    setPassword(event.target.value);
+  const handlePasswordConfirm = async (data) => {
+    try {
+      const response = await passwordCheck(data.password);
+      console.log("Response:", response);
+      navigate("/mypage/information/fix");
+    } catch (error) {
+      setError("password", {
+        type: "manual",
+        message: "Password does not match.",
+      });
+    }
   };
 
   const userInfo = [
@@ -40,24 +54,24 @@ const InformationForm = ({ data }) => {
       value: `${info?.firstName || ""} ${info?.lastName || ""}`,
     },
     { keyName: "Email", value: info?.email },
-    { keyName: "Birth", value: info?.age },
+    { keyName: "Birth", value: info?.birthDate },
     { keyName: "TEL", value: info?.phone },
     { keyName: "Country", value: codeToName(info?.country) },
     { keyName: "bio", value: info?.introduction },
     { keyName: "Role", value: info?.role },
-    // { keyName: "Interests", value: info?.categoryList.join(", ") },
+    { keyName: "Interests", value: info?.categoryList.join(", ") },
   ];
 
   return (
     <div className="min-w-[50%] flex justify-center items-center flex-col">
       <section className="p-10 border border-2 bg-white w-full">
         <Title className="text-xl mb-5 border-b">
-          My Information
           <img
-            className="w-7 rounded-full inline-block mb-2 ml-2"
+            className="max-w-[60px] rounded-xl inline-block mb-2 mr-6"
             src={info?.profileImage || defaultProfileImage}
             alt="Profile Image"
           ></img>
+          My Information
         </Title>
         {userInfo.map((item, index) => (
           <KeyValueComponent
@@ -78,28 +92,50 @@ const InformationForm = ({ data }) => {
             </span>
             Edit
           </Button>
-          <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-            <Title className="text-xl font-semibold mb-4">
-              Edit Personal Information{" "}
-            </Title>
-            <p className="text-base text-gray-600">
-              Please enter your password for user authentication
-            </p>
-            <InputOnly
-              value={password || ""}
-              type="password"
-              id="password"
-              label="password"
-              onChange={handleOnChange}
-            ></InputOnly>
-            <Button
-              color="white"
-              size="sm"
-              onClick={() => navigate("/mypage/information/fix")}
-            >
-              confirm
-            </Button>
-          </Modal>
+          <FormProvider {...methods}>
+            <form onSubmit={handleSubmit(handlePasswordConfirm)}>
+              <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+                <Title className="text-xl font-semibold mb-4">
+                  Edit Personal Information{" "}
+                </Title>
+                <p className="text-base text-gray-600">
+                  Please enter your password for user authentication
+                </p>
+                <Controller
+                  name="password"
+                  defaultValue=""
+                  control={methods.control}
+                  rules={{
+                    required: "Please enter your password",
+                    pattern: {
+                      value:
+                        /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@#$%^&+=!~`<>,./?;:'"\[\]{}\\()|_-])\S{8,16}$/,
+                      message:
+                        "Password must be within 8-16, including all English case, numbers, and special characters.",
+                    },
+                  }}
+                  render={({ field, fieldState }) => (
+                    <InputBox
+                      {...field}
+                      name="password"
+                      control={methods.control}
+                      label="Password"
+                      variant="filled"
+                      type="password"
+                      placeholder="Password"
+                      error={fieldState.invalid}
+                      helperText={
+                        fieldState.error ? fieldState.error.message : null
+                      }
+                    />
+                  )}
+                />
+                <Button type="submit" color="white" size="sm">
+                  confirm
+                </Button>
+              </Modal>
+            </form>
+          </FormProvider>
         </div>
       </section>
     </div>

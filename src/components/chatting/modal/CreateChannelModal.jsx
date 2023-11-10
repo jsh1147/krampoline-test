@@ -96,6 +96,10 @@ const CreateChannelModal = ({ modalIsOpen, setModalIsOpen }) => {
           <div className="w-full">
             <img
               src={createChannelInfo.imageUrl}
+              onError={(e) => {
+                e.target.src =
+                  "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png?20200912122019";
+              }}
               alt="채널 이미지"
               className="w-full h-52 object-cover"
             />

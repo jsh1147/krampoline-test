@@ -3,8 +3,8 @@ import { instance } from "./instance";
 
 export const emailCheck = (data) => {
   const email = data;
-  console.log("Request Body:", { email }); // 로깅을 먼저 수행
-  return instance.post("/users/emailcheck", { email }); // 객체 리터럴을 반환
+  console.log("Request Body:", { email });
+  return instance.post("/users/emailcheck", { email });
 };
 
 export const register = (data) => {
@@ -17,7 +17,7 @@ export const register = (data) => {
     introduction,
     profileImage,
     country,
-    age,
+    birthDate,
     categoryList,
     phone,
   } = data;
@@ -31,7 +31,7 @@ export const register = (data) => {
     introduction,
     profileImage,
     country,
-    age,
+    birthDate,
     categoryList,
     phone,
   });
@@ -45,9 +45,17 @@ export const login = (data) => {
   });
 };
 
-// export const getUser = () => {
-//   return instance.get("/getUser");
-// };
+export const passwordCheck = (data) => {
+  const password = data;
+  console.log("Request Body:", { password });
+  return instance.post("/users/passwordcheck", {
+    password,
+  });
+};
+
+export const getUser = () => {
+  return instance.get("/profiles/simple");
+};
 
 // ---- mock api
 
@@ -98,31 +106,31 @@ export const login = (data) => {
 // 백앤드 api 연결 전 까지 mock api 사용 - getUser
 // 임시 uid로 사용자 판별
 
-export const getUser = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  const uid = window.localStorage.getItem("uid");
-  let user;
+// export const getUser = async () => {
+//   await new Promise((resolve) => setTimeout(resolve, 500));
+//   const uid = window.localStorage.getItem("uid");
+//   let user;
 
-  if (uid === "10") {
-    user = mockUsers["user@example.com"];
-  } else if (uid === "11") {
-    user = mockUsers["user2@example.com"];
-  }
+//   if (uid === "10") {
+//     user = mockUsers["user@example.com"];
+//   } else if (uid === "11") {
+//     user = mockUsers["user2@example.com"];
+//   }
 
-  if (!user) {
-    return null;
-  }
+//   if (!user) {
+//     return null;
+//   }
 
-  const responseUser = {
-    email: user.email,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    profileImage: user.profileImage,
-  };
+//   const responseUser = {
+//     email: user.email,
+//     firstName: user.firstName,
+//     lastName: user.lastName,
+//     profileImage: user.profileImage,
+//   };
 
-  return {
-    message: "successful",
-    user: responseUser,
-    success: true,
-  };
-};
+//   return {
+//     message: "successful",
+//     user: responseUser,
+//     success: true,
+//   };
+// };
