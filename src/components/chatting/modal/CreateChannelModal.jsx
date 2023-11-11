@@ -5,6 +5,7 @@ import Modal from "react-modal";
 
 const customStyles = {
   content: {
+    position: "fixed",
     top: "50%",
     left: "50%",
     width: "calc(100% - 28rem)",
@@ -18,7 +19,7 @@ const customStyles = {
   },
   overlay: {
     padding: "0",
-    position: "absolute",
+    position: "fixed",
   },
 };
 

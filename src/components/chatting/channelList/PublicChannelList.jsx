@@ -53,7 +53,7 @@ const PublicChannelList = () => {
   }, [inView, fetchNextPage, hasNextPage]);
 
   return (
-    <div>
+    <div className="h-fit">
       <ChannelDetailModal
         modalIsOpen={modalIsOpen}
         handleModalClose={handleModalClose}
