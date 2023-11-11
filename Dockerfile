@@ -3,7 +3,7 @@ FROM krmp-d2hub-idock.9rum.cc/goorm/node:16 AS build
 WORKDIR /usr/src/app
 
 ENV VITE_TALKPLUS_APP_ID="7e9a61f5-c04a-4b27-aee0-0fd568bdb6cb"
-ENV VITE_API_URL="https://k6306e208fe94a.user-app.krampoline.com"
+ENV VITE_API_URL="https://ke94a9914479ca.user-app.krampoline.com/api"
 
 COPY package*.json ./
 RUN npm ci

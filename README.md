@@ -9,6 +9,7 @@
 ### Index
 
 1. [🖥️ Project ](#-project)
+   - [ 🎈 Instance address](#-instance-address)
    - [⏰ develop period](#-develop-period)
    - [🔎 purpose](#-purpose)
 2. [🚀 How to start?](#-how-to-start)
@@ -22,11 +23,19 @@
 
 관심사를 기반으로 한국어 학습이 가능하도록 **한국어 영상 서비스** / **멘토 멘티 서비스** / **채팅 서비스** 를 제공하고 있습니다.
 
-| FE Gardener                              |
-| ---------------------------------------- |
-| 👨‍🌾 [정성현](https://github.com/jsh1147)  |
-| 👩‍🌾 [강바다](https://github.com/bada308)  |
-| 👩‍🌾 [채민아](https://github.com/chaemina) |
+| FE Gardener                              | BE Gardener                                  |
+| ---------------------------------------- | -------------------------------------------- |
+| 👨‍🌾 [정성현](https://github.com/jsh1147)  | 👨‍🌾 [이윤수](https://github.com/sjmjys954646) |
+| 👩‍🌾 [강바다](https://github.com/bada308)  | 👨‍🌾 [진승현](https://github.com/choboss00)    |
+| 👩‍🌾 [채민아](https://github.com/chaemina) | 👩‍🌾 [강효정](https://github.com/cosmos-1885)  |
+
+#### 🎈 Instance address
+
+- FE 배포 주소 : https://k2d5076fbf9a5a.user-app.krampoline.com/videos
+
+#### 🎨 ERD
+
+![title](https://user-images.githubusercontent.com/37840237/282228221-992a7c04-34b2-4b61-b4de-63e23fe8719c.png)
 
 #### ⏰ develop period
 
