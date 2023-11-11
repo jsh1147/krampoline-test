@@ -1,10 +1,5 @@
 import Title from "../atoms/Title";
 import Button from "../../common/Button";
-import Modal from "../atoms/Modal";
-import { useForm, FormProvider, Controller } from "react-hook-form";
-import { useState } from "react";
-import { InputBox } from "../atoms/InputBox";
-import { passwordCheck } from "../../../apis/user";
 import { useNavigate } from "react-router-dom";
 import { codeToName } from "../../../utils/account/country";
 import { profileImageAtom } from "../../../store/index";
@@ -26,27 +21,6 @@ const InformationForm = ({ data }) => {
   const info = data?.data?.data;
   const [defaultProfileImage] = useAtom(profileImageAtom);
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false);
-  const methods = useForm();
-  const { watch, handleSubmit, setError, control } = methods;
-  const password = watch("password");
-
-  const openModalHandler = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const handlePasswordConfirm = async (data) => {
-    try {
-      const response = await passwordCheck(data.password);
-      console.log("Response:", response);
-      navigate("/mypage/information/fix");
-    } catch (error) {
-      setError("password", {
-        type: "manual",
-        message: "Password does not match.",
-      });
-    }
-  };
 
   const userInfo = [
     {
@@ -86,56 +60,16 @@ const InformationForm = ({ data }) => {
         <Title className="text-xl mb-5">Update Information</Title>
         <p className="text-gray-500">Go to Edit Information</p>
         <div className="relative w-full flex justify-end">
-          <Button color="orange" size="base" onClick={openModalHandler}>
+          <Button
+            color="orange"
+            size="base"
+            onClick={() => navigate("/mypage/information/fix")}
+          >
             <span className="material-symbols-outlined relative -bottom-1">
               edit
             </span>
             Edit
           </Button>
-          <FormProvider {...methods}>
-            <form onSubmit={handleSubmit(handlePasswordConfirm)}>
-              <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-                <Title className="text-xl font-semibold mb-4">
-                  Edit Personal Information{" "}
-                </Title>
-                <p className="text-base text-gray-600">
-                  Please enter your password for user authentication
-                </p>
-                <Controller
-                  name="password"
-                  defaultValue=""
-                  control={methods.control}
-                  rules={{
-                    required: "Please enter your password",
-                    pattern: {
-                      value:
-                        /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@#$%^&+=!~`<>,./?;:'"\[\]{}\\()|_-])\S{8,16}$/,
-                      message:
-                        "Password must be within 8-16, including all English case, numbers, and special characters.",
-                    },
-                  }}
-                  render={({ field, fieldState }) => (
-                    <InputBox
-                      {...field}
-                      name="password"
-                      control={methods.control}
-                      label="Password"
-                      variant="filled"
-                      type="password"
-                      placeholder="Password"
-                      error={fieldState.invalid}
-                      helperText={
-                        fieldState.error ? fieldState.error.message : null
-                      }
-                    />
-                  )}
-                />
-                <Button type="submit" color="white" size="sm">
-                  confirm
-                </Button>
-              </Modal>
-            </form>
-          </FormProvider>
         </div>
       </section>
     </div>

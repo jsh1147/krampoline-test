@@ -1,4 +1,5 @@
 const ERROR_CODE = {
+  UNAUTHORIZED: "1006",
   ALREADY_MEMBER: "2008",
 };
 

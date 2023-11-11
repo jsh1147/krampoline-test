@@ -8,6 +8,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import VideoSkeleton from "../atoms/Skeleton";
 import Grid from "../atoms/Grid";
 import VideoCard from "../molecules/VideoCard";
+import Toast from "../../common/Toast";
 
 const UserVideoList = () => {
   const { data, isError, error } = useQuery(["getUserVideos"], getUserVideos, {
@@ -19,8 +20,13 @@ const UserVideoList = () => {
   if (error) {
     return <Error errorMessage={error.errorMessage}></Error>;
   }
+
   if (!videos || videos.length === 0) {
-    return <p>유효한 데이터가 없습니다.</p>;
+    return (
+      <Title className="text-base text-paragraph mt-20">
+        No user-recommended video information!
+      </Title>
+    );
   }
 
   return (
@@ -28,7 +34,7 @@ const UserVideoList = () => {
       <main className="w-full flex flex-col justify-center items-center bg-white">
         <Title className="text-base text-paragraph mt-20">Your favorites</Title>
         <Title className="mb-20">Videos for you</Title>
-        <div className="w-[70%] mb-20 ">
+        <div className="w-[77%] mb-20">
           <ErrorBoundary
             fallback={<Error errorMessage="Failed to load video list" />}
           >

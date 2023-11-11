@@ -18,7 +18,7 @@ const Tabs = ({ handleModalOpen }) => {
           type === channelType ? (
             <div
               key={type}
-              className="font-semibold text-orange p-3 border-b-2 border-orange min-w-fit"
+              className="font-semibold text-orange p-3 border-b-2 border-orange min-w-fit cursor-pointer"
             >
               {type}
             </div>

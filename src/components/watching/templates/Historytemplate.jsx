@@ -12,14 +12,19 @@ const Historytemplate = () => {
       suspense: true,
     }
   );
-  console.log(data);
-
   return (
     <>
-      <main className="w-[58rem] mx-auto my-16 flex flex-col justify-center items-center">
-        <div className="w-full space-y-8">
-          <Title className="">History</Title>
-          {isLoading ? <VideoSkeleton /> : <HistoryForm data={data} />}
+      <main className="w-[58%] mx-auto my-16 flex flex-col justify-center items-center">
+        <div className="w-full">
+          <Title className="text-base text-paragraph">Watched Recently</Title>
+          <Title className="mb-4">History</Title>
+          <div className="space-y-8">
+            {isLoading ? (
+              <VideoSkeleton />
+            ) : (
+              <HistoryForm data={data?.data?.data} />
+            )}
+          </div>
         </div>
       </main>
     </>

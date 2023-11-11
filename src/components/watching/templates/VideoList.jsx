@@ -11,10 +11,21 @@ import Dropdown from "../../common/Dropdown";
 import { CATEGORY } from "../../account/constants/TAGLIST";
 import Title from "../../account/atoms/Title";
 import { nameToCategoryId } from "../utils/categoryId";
+import ToastError from "../../common/Toast";
+import Fallback from "../../common/Fallback";
+import Loader from "../../common/Loader";
 
 const VideoList = () => {
   const { ref, inView } = useInView();
   const [category, setCategory] = useState("IDOL");
+  const [openToastError, setOpenToastError] = useState(false);
+  const [toastErrorMessage, setToastErrorMessage] = useState("");
+
+  const handleClose = (event, reason) => {
+    if (reason !== "clickaway") {
+      setOpenToastError(false);
+    }
+  };
 
   const handleOptionChange = (selectedCategory) => {
     setCategory(selectedCategory);
@@ -33,6 +44,12 @@ const VideoList = () => {
         },
         onSuccess: (data) => {
           console.log(data);
+        },
+        onError: (error) => {
+          setOpenToastError(true);
+          setToastErrorMessage(
+            "Error !  Unable to load Videos. Try again in a minute"
+          );
         },
 
         retry: false,
@@ -53,12 +70,18 @@ const VideoList = () => {
         You can choose a video
       </Title>
       <Title className="mb-20">Videos by Category</Title>
-      <main className="w-[70%]">
-        <ErrorBoundary
-          fallback={<Error errorMessage="Failed to load video list" />}
+      <main className="w-[77%]">
+        <Fallback
+          Loader={Loader}
+          Error={ToastError}
+          errorMessage="Error! Unable to load Videos. Try again in a minute "
         >
-          {error ? (
-            <Error errorMessage={error.message} />
+          {error || openToastError ? (
+            <ToastError
+              open={openToastError}
+              handleClose={handleClose}
+              errorMessage={toastErrorMessage}
+            />
           ) : (
             <ErrorBoundary>
               <Suspense fallback={<VideoSkeleton />}>
@@ -70,6 +93,7 @@ const VideoList = () => {
                     onSelectedChange={handleOptionChange}
                     className="border-2 bg-white mb-10"
                   />
+
                   <VideoGrid
                     videos={videos}
                     fetchNextPage={fetchNextPage}
@@ -82,7 +106,7 @@ const VideoList = () => {
               </Suspense>
             </ErrorBoundary>
           )}
-        </ErrorBoundary>
+        </Fallback>
       </main>
     </>
   );

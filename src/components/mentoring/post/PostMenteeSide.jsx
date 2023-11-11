@@ -7,22 +7,25 @@ import {
   addConnectionReq,
   deleteConnectionReq,
 } from "../../../apis/mentoring/connetion";
-import { authAtom, uidAtom } from "../../../store";
+import { authAtom, uidAtom, profileImageAtom } from "../../../store";
+import { connectionState } from "../../../constants/mentoring";
 import { convertDateToAge } from "../../../utils/age";
 
 import Button from "../../common/Button";
 import FlagTag from "../../common/FlagTag";
 import Tag from "../../common/Tag";
+import NotPost from "./NotPost";
 
 export default function PostMenteeSide({ data }) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const auth = useAtomValue(authAtom);
   const uid = useAtomValue(uidAtom);
+  const defaultImage = useAtomValue(profileImageAtom);
 
-  const cid = data.connections.find(
-    (connection) => connection.menteeDTO.menteeId === uid
-  )?.connectionId;
+  const myConnection = data.connections.find(
+    (connection) => connection.mentee.menteeId === uid
+  );
 
   const { mutate: addMutate } = useMutation({ mutationFn: addConnectionReq });
 
@@ -31,12 +34,19 @@ export default function PostMenteeSide({ data }) {
   });
 
   const handleApplylClick = () => {
+    const reqData = {
+      menteeId: uid,
+      mentorId: data.writerDTO.mentorId,
+      mentorPostId: data.postId,
+    };
     if (auth) {
-      addMutate(data.postId, {
-        onSuccess: (res) => {
-          toast("Successfully applied.");
+      addMutate(reqData, {
+        onSuccess: () => {
+          toast("Successfully applied.", {
+            className: "bg-[#5A906E] text-[#F2F7F5]",
+          });
           queryClient.invalidateQueries({
-            queryKey: ["post", res.data.data.postId],
+            queryKey: ["post"],
           });
         },
       });
@@ -52,11 +62,13 @@ export default function PostMenteeSide({ data }) {
 
   const handleCancelClick = () => {
     if (window.confirm("Are you sure you want to cancel?"))
-      deleteMutate([cid], {
-        onSuccess: (res) => {
-          toast("Successfully canceled.");
+      deleteMutate([myConnection.connectionId], {
+        onSuccess: () => {
+          toast("Successfully canceled.", {
+            className: "bg-[#5A906E] text-[#F2F7F5]",
+          });
           queryClient.invalidateQueries({
-            queryKey: ["post", data.postId],
+            queryKey: ["post"],
           });
         },
       });
@@ -68,8 +80,8 @@ export default function PostMenteeSide({ data }) {
         {/* 상단 - 멘토 정보 및 멘토링 제목 */}
         <div className="w-full h-fit flex">
           <img
-            className="w-56 p-8 rounded-full"
-            src={data.writerDTO.profileImage}
+            className="flex-shrink-0 object-fill w-56 h-56 p-8 rounded-full"
+            src={data.writerDTO.profileImage || defaultImage}
             alt="작성자 프로필 이미지"
           ></img>
           <div className="w-full px-4 flex flex-col justify-center space-y-3">
@@ -83,13 +95,18 @@ export default function PostMenteeSide({ data }) {
                   <Tag key={`writertag-${index}`}>{interest}</Tag>
                 ))}
               </span>
-              <Button
-                color="white"
-                size="base"
-                onClick={!cid ? handleApplylClick : handleCancelClick}
-              >
-                {!cid ? "Apply" : "Cancel"}
-              </Button>
+              {(!myConnection ||
+                myConnection.state == connectionState.AWAIT) && (
+                <Button
+                  color="white"
+                  size="base"
+                  onClick={
+                    !myConnection ? handleApplylClick : handleCancelClick
+                  }
+                >
+                  {!myConnection ? "Apply" : "Cancel"}
+                </Button>
+              )}
             </div>
           </div>
         </div>
@@ -112,34 +129,33 @@ export default function PostMenteeSide({ data }) {
               <tr key={`mentee-${index}`} className="bg-white border">
                 <td className="p-2 text-left space-x-2">
                   <img
-                    className="inline w-8 rounded-full"
-                    src={connection.menteeDTO.profileImage}
-                    alt={`${connection.menteeDTO.menteeId} 프로필 이미지`}
+                    className="inline object-fill w-8 h-8 rounded-full"
+                    src={connection.mentee.profileImage || defaultImage}
+                    alt={`${connection.mentee.menteeId} 프로필 이미지`}
                   ></img>
-                  <span className="font-medium">
-                    {connection.menteeDTO.name}
-                  </span>
+                  <span className="font-medium">{connection.mentee.name}</span>
                 </td>
                 <td>
-                  <FlagTag>{connection.menteeDTO.country}</FlagTag>
+                  <FlagTag>{connection.mentee.country}</FlagTag>
                 </td>
                 <td className="space-x-2">
-                  {connection.menteeDTO.interests.map((interest, index) => (
+                  {connection.mentee.interests.map((interest, index) => (
                     <Tag key={`menteetag-${index}`}>{interest}</Tag>
                   ))}
                 </td>
                 <td>
                   <Tag>
-                    {convertDateToAge(connection.menteeDTO.birthDate) + ""}
+                    {convertDateToAge(connection.mentee.birthDate) + ""}
                   </Tag>
                 </td>
                 <td>
-                  <Tag>{connection.connectionState}</Tag>
+                  <Tag>{connection.state}</Tag>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+        {data.connections.length === 0 && <NotPost />}
       </div>
     </div>
   );

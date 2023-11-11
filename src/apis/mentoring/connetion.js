@@ -48,32 +48,40 @@ export async function addConnectionReq(data) {
   }
 }
 
-export async function deleteConnectionReq(uids) {
+export async function deleteConnectionReq(cids) {
   if (isMock) {
     await new Promise((resolve) => setTimeout(resolve, 500));
     return mockResponse(null);
   } else {
-    const queryParam = uids
-      .reduce((acc, uid) => `${acc}${uid},`, "?connectionId=")
+    const queryParam = cids
+      .reduce((acc, cid) => `${acc}${cid},`, "?connectionId=")
       .slice(0, -1);
     return await instance.delete(`/contacts${queryParam}`);
   }
 }
 
-export async function acceptConnectionReq(uids) {
+export async function acceptConnectionReq(cids) {
   if (isMock) {
     await new Promise((resolve) => setTimeout(resolve, 500));
     return mockResponse(null);
   } else {
-    return await instance.post(`/contacts/accept`);
+    const reqData = cids.reduce(
+      (acc, cid) => [...acc, { connectionId: cid }],
+      []
+    );
+    return await instance.post("/contacts/accept", reqData);
   }
 }
 
-export async function refuseConnectionReq(uids) {
+export async function refuseConnectionReq(cids) {
   if (isMock) {
     await new Promise((resolve) => setTimeout(resolve, 500));
     return mockResponse(null);
   } else {
-    return await instance.patch(`/contacts/refuse`);
+    const reqData = cids.reduce(
+      (acc, cid) => [...acc, { connectionId: cid }],
+      []
+    );
+    return await instance.patch("/contacts/refuse", reqData);
   }
 }

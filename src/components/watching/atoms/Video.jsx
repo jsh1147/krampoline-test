@@ -5,8 +5,6 @@ const Video = ({ video, languages }) => {
   const [player, setPlayer] = useState(null);
   const [currentSubtitle, setCurrentSubtitle] = useState("");
 
-  console.log(video.subtitles);
-  console.log(video.endTime);
   const findSubtitle = (currentTime) => {
     return video.subtitles.find((sub) => {
       const start = parseFloat(sub.korSubtitleStartTime);

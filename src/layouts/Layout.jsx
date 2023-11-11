@@ -11,6 +11,7 @@ import ScrollToTop from "./ScrollToTop";
 
 export default function Layout() {
   const token = window.localStorage.getItem("token");
+
   // const { data, isLoading, isError, error } = useQuery(["getUser"], getUser, {
   //   enabled: !!token,
   // });

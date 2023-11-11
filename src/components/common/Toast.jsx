@@ -25,22 +25,26 @@ export default function Toast({
   message,
   severity,
   children,
+  autoHideDuration,
+  sx,
 }) {
   return (
     <ThemeProvider theme={theme}>
       <Snackbar
         open={open}
-        autoHideDuration={6000}
+        autoHideDuration={autoHideDuration || 5000}
         onClose={handleClose}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
         <Alert
           onClose={handleClose}
           severity={severity}
-          sx={{
-            width: "100%",
-            bgcolor: (theme) => theme.palette.primary.main,
-          }}
+          sx={
+            sx || {
+              width: "100%",
+              bgcolor: (theme) => theme.palette.primary.main,
+            }
+          }
           action={<>{children}</>}
         >
           {message}

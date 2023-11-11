@@ -14,6 +14,8 @@ import BasicDatePicker from "../atoms/DatePicker";
 import dayjs from "dayjs";
 import { codeToName, nameToCode } from "../../../utils/account/country";
 import { passwordCheck } from "../../../apis/user";
+import Toast from "../../common/Toast";
+import ToastError from "../../common/ToastError";
 
 const InformationFixForm = ({ data, inputProps }) => {
   const info = data?.data?.data;
@@ -26,7 +28,6 @@ const InformationFixForm = ({ data, inputProps }) => {
   const methods = useForm({
     defaultValues: {
       ...defaultValues,
-      password: "",
       birthDate: dayjs(info?.birthDate),
     },
   });
@@ -45,11 +46,29 @@ const InformationFixForm = ({ data, inputProps }) => {
   const phone = watch("phone");
   const password = watch("password");
   const newPassword = watch("newPassword");
-  const passwordCheck = watch("passwordcheck");
+  const passwordcheck = watch("passwordcheck");
   const birthDate = watch("birthDate");
   const introduction = watch("introduction");
-
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [severity, setSeverity] = useState("");
+  const [openToastError, setOpenToastError] = useState(false);
+  const [toastErrorMessage, setToastErrorMessage] = useState("");
   const [profileImage, setProfileImage] = useState(info?.profileImage);
+
+  const handleOk = (event, reason) => {
+    if (reason !== "clickaway") {
+      setOpen(false);
+      navigate("/mypage/information");
+    }
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason !== "clickaway") {
+      setOpenToastError(false);
+      setOpen(false);
+    }
+  };
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -76,28 +95,26 @@ const InformationFixForm = ({ data, inputProps }) => {
     setCategoryList(newCategoryList);
   };
 
-  const handlePasswordCheck = async (password) => {
+  const handleOriginPassword = async (password) => {
     try {
       const response = await passwordCheck(password);
 
       console.log("Response:", response);
       return true;
     } catch (error) {
-      if (error?.response?.data?.status === "fail") {
-        setError(
-          "password",
-          { message: "please enter your origin password" },
-          { shouldFocus: true }
-        );
-        return false;
-      }
+      console.log(error);
+      setError(
+        "password",
+        { message: "It's wrong. Enter the existing password you were using" },
+        { shouldFocus: true }
+      );
       return false;
     }
   };
 
   const handlePasswordConfirm = () => {
-    if (newPassword && passwordCheck) {
-      if (newPassword !== passwordCheck) {
+    if (newPassword && passwordcheck) {
+      if (newPassword !== passwordcheck) {
         setError(
           "passwordcheck",
           { message: "Passwords do not match" },
@@ -161,20 +178,32 @@ const InformationFixForm = ({ data, inputProps }) => {
 
   const mutation = useMutation(editInfo, {
     onSuccess: () => {
-      alert("정보가 성공적으로 수정되었습니다.");
-      navigate("/mypage/information");
+      setOpen(true);
+      setSeverity("success");
+      setMessage("Edit Success");
+      setTimeout(() => {
+        handleOk();
+      }, 1500);
     },
     onError: () => {
-      alert("정보 수정에 실패했습니다.");
+      setOpenToastError(true);
+      setToastErrorMessage("Edit failed");
     },
   });
 
-  const onSubmit = (formData) => {
-    const OriginPasswordCheck = handlePasswordCheck(password);
-    const passwordIsValid = handlePasswordConfirm();
+  const onSubmit = async (formData) => {
+    try {
+      //email과 password 값 유효 먼저 체크
+      const OriginPasswordCheck = await handleOriginPassword(password);
+      const passwordIsValid = await handlePasswordConfirm(passwordcheck);
 
-    if (passwordIsValid && OriginPasswordCheck) {
-      mutation.mutate(changedValues);
+      if (passwordIsValid && OriginPasswordCheck) {
+        mutation.mutate(changedValues);
+      }
+    } catch (error) {
+      setOpenToastError(true);
+      setToastErrorMessage(error?.response?.data?.message || "Edit failed");
+      console.error("Edit", error);
     }
   };
 
@@ -291,6 +320,20 @@ const InformationFixForm = ({ data, inputProps }) => {
           </main>
         </form>
       </FormProvider>
+      {openToastError && (
+        <ToastError
+          open={openToastError}
+          handleClose={handleClose}
+          errorMessage={toastErrorMessage}
+        />
+      )}
+      <Toast
+        open={open}
+        handleClose={handleClose}
+        severity={severity}
+        message={message}
+        autoHideDuration={3000}
+      />
     </>
   );
 };

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import { tabState, userRole } from "../../../constants/mentoring";
-import { getUser } from "../../../apis/mentoring/post";
+import { getUserInfoReq } from "../../../apis/mentoring/post";
 import { getPostCountsReq } from "../../../apis/mentoring/connetion";
 
 import TabBar from "./TabBar";
@@ -17,8 +17,8 @@ export default function DashboardSection() {
   const [tab, setTab] = useState(tabState.CONTACT);
 
   const { data: userData } = useQuery({
-    queryKey: ["user"],
-    queryFn: getUser,
+    queryKey: ["userInfo"],
+    queryFn: getUserInfoReq,
   });
 
   const { data } = useQuery({

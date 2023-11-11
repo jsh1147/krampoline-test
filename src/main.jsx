@@ -7,12 +7,6 @@ import Router from "./Router";
 import "./main.css";
 import { Toaster } from "react-hot-toast";
 
-
-console.log(import.meta.env.VITE_TEST_FIRST);
-console.log(import.meta.env.VITE_TEST_SECOND);
-console.log(import.meta.env.VITE_TEST_THIRD);
-
-
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: false, suspense: true } },
 });

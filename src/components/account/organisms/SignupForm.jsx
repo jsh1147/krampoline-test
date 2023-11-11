@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { nameToCode } from "../../../utils/account/country";
 import Title from "../atoms/Title";
 import Toast from "../../common/Toast";
+import ToastError from "../../common/ToastError";
 
 const SignupForm = ({ inputProps }) => {
   const navigate = useNavigate();
@@ -24,6 +25,10 @@ const SignupForm = ({ inputProps }) => {
   const password = watch("password");
   const passwordCheck = watch("passwordcheck");
   const birthDate = watch("birthDate");
+  const [message, setMessage] = useState("");
+  const [severity, setSeverity] = useState("");
+  const [openToastError, setOpenToastError] = useState(false);
+  const [toastErrorMessage, setToastErrorMessage] = useState("");
 
   const [country, setCountry] = useState("United States");
 
@@ -43,16 +48,20 @@ const SignupForm = ({ inputProps }) => {
   };
 
   const [open, setOpen] = useState(false);
-  const handleOk = () => {
-    navigate("/", { replace: true });
-  };
+
   const handleClose = (event, reason) => {
     if (reason !== "clickaway") {
+      setOpenToastError(false);
       setOpen(false);
-      navigate("/", { replace: true });
     }
   };
 
+  const handleOk = (event, reason) => {
+    if (reason !== "clickaway") {
+      setOpen(false);
+      navigate("/");
+    }
+  };
   const handleEmailConfirm = async (email) => {
     try {
       const response = await emailCheck(email);
@@ -118,18 +127,29 @@ const SignupForm = ({ inputProps }) => {
         if (response?.data?.status === "success") {
           // 성공적으로 회원가입한 경우 메인 페이지로 이동
           setOpen(true);
+          setMessage("Sign up Success");
+          setSeverity("success");
+          setTimeout(() => {
+            handleOk();
+          }, 2000);
         } else {
           // 회원 가입 실패
+          setOpenToastError(true);
+          setToastErrorMessage("Sign up failed");
           console.error("sign up failed", error);
         }
       } else {
         // email과 password 검사 실패
+        setOpenToastError(true);
+        setToastErrorMessage("Sign up failed");
         console.log(error);
       }
     } catch (error) {
-      // 에러 처리
-      // 회원 가입 요청 실패
-      // 잘못 된 input 값 입력 했을 때 -> 오류 메세지 출력, 토스트로 띄우기
+      // setOpen(true);
+      // setMessage("Sign up failed");
+      // setSeverity("error");
+      setOpenToastError(true);
+      setToastErrorMessage(error?.response?.data?.message || "Sign up failed");
       const errors = error?.response?.data?.data;
       Object.entries(errors).forEach(([key, message]) => {
         console.log(`${key}: ${message}`);
@@ -166,11 +186,6 @@ const SignupForm = ({ inputProps }) => {
 
   return (
     <>
-      <Toast open={open} message="Sign up success" handleClose={handleClose}>
-        <button color="inherit" size="small" onClick={handleOk}>
-          OKAY
-        </button>
-      </Toast>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           <div className="max-w-[500px]">
@@ -242,6 +257,20 @@ const SignupForm = ({ inputProps }) => {
           </div>
         </form>
       </FormProvider>
+      {openToastError && (
+        <ToastError
+          open={openToastError}
+          handleClose={handleClose}
+          errorMessage={toastErrorMessage}
+        />
+      )}
+      <Toast
+        open={open}
+        handleClose={handleClose}
+        severity={severity}
+        message={message}
+        autoHideDuration={3000}
+      />
     </>
   );
 };

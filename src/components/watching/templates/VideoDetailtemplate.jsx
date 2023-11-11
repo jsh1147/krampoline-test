@@ -15,7 +15,7 @@ const VideoDetailtemplate = () => {
     { enabled: !!videoID, suspense: true }
   );
   if (isError) {
-    return <Error errorMessage={error.errorMessage} />;
+    return <Error errorMessage={"This Video does not exist."} />;
   }
   if (isLoading) {
     return <Loader />;

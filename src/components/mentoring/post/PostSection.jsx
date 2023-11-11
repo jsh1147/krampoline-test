@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 
 import { uidAtom } from "../../../store";
-import { getUser, getPostReq } from "../../../apis/mentoring/post";
+import { getUserInfoReq, getPostReq } from "../../../apis/mentoring/post";
 import { userRole, postState } from "../../../constants/mentoring";
 
 import PostDoneSide from "./PostDoneSide";
@@ -15,8 +15,8 @@ export default function PostSection() {
   const uid = useAtomValue(uidAtom);
 
   const { data: userData } = useQuery({
-    queryKey: ["user"],
-    queryFn: getUser,
+    queryKey: ["userInfo"],
+    queryFn: getUserInfoReq,
     enabled: !!uid,
   });
 

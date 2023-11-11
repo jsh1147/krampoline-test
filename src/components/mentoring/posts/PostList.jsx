@@ -4,6 +4,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 
 import { getPostsReq } from "../../../apis/mentoring/post";
 
+import NotPost from "./NotPost";
 import PostCard from "./PostCard";
 import PostCardSkeletons from "./PostCardSkeletons";
 
@@ -26,7 +27,9 @@ export default function PostList({ category, search }) {
     if (inView && !isLoading && hasNextPage) fetchNextPage();
   }, [inView, isLoading, hasNextPage, fetchNextPage]);
 
-  return (
+  return data.pages[0].data.data.length === 0 ? (
+    <NotPost />
+  ) : (
     <div className="flex flex-col">
       {data.pages
         .flatMap((page) => page.data.data)

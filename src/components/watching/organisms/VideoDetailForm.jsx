@@ -5,7 +5,6 @@ import { useState } from "react";
 
 const VideoDetailForm = (data) => {
   const video = data?.data?.data?.data;
-  console.log(video);
 
   const [languages, setLanguages] = useState({
     Korean: false,

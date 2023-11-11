@@ -1,5 +1,6 @@
 import { v5 as uuid } from "uuid";
 import ERROR_CODE from "../../constants/chatting/ERROR";
+import { simpleUserInfo } from "../mypage";
 
 // eslint-disable-next-line no-undef
 export const client = new TalkPlus.Client({
@@ -19,25 +20,43 @@ export const login = async ({ userId, username, profileImageUrl }) => {
   }
 };
 
+export const relogin = async () => {
+  const res = await simpleUserInfo();
+  const { id, firstName, lastName, profileImage } = res.data.data;
+  const userInfo = {
+    userId: id,
+    username: `${firstName} ${lastName}`,
+    profileImageUrl: profileImage,
+  };
+  await login(userInfo);
+};
+
 export const getPublicChannels = async ({
   lastChannelId,
   searchValue,
   searchSubValue,
 }) => {
-  const body = { limit: 30 };
-  if (lastChannelId) {
-    body.lastChannelId = lastChannelId;
-  }
-  if (searchValue && searchValue.length > 0) {
-    body.category = searchValue;
-  }
+  try {
+    const body = { limit: 30 };
+    if (lastChannelId) {
+      body.lastChannelId = lastChannelId;
+    }
+    if (searchValue && searchValue.length > 0) {
+      body.category = searchValue;
+    }
 
-  if (searchSubValue && searchSubValue.length > 0) {
-    body.subcategory = searchSubValue;
-  }
+    if (searchSubValue && searchSubValue.length > 0) {
+      body.subcategory = searchSubValue;
+    }
 
-  const data = await client.getPublicChannels(body);
-  return data;
+    const data = await client.getPublicChannels(body);
+    return data;
+  } catch (error) {
+    if (error.code === ERROR_CODE.UNAUTHORIZED) {
+      relogin();
+      getPublicChannels({ lastChannelId, searchValue, searchSubValue });
+    }
+  }
 };
 
 export const getChannelDetail = async (channelId) => {
@@ -47,8 +66,10 @@ export const getChannelDetail = async (channelId) => {
     });
     return channel;
   } catch (error) {
-    console.log(error);
-    return {};
+    if (error.code === ERROR_CODE.UNAUTHORIZED) {
+      relogin();
+      getChannelDetail(channelId);
+    }
   }
 };
 
@@ -72,8 +93,10 @@ export const getJoinedChannels = async ({
     const data = await client.getChannels(body);
     return data;
   } catch (error) {
-    console.log(error);
-    return [];
+    if (error.code === ERROR_CODE.UNAUTHORIZED) {
+      relogin();
+      getJoinedChannels({ lastChannelId, searchValue, searchSubValue });
+    }
   }
 };
 
@@ -86,6 +109,10 @@ export const joinChannel = async (channelId) => {
   } catch (error) {
     if (error.code !== ERROR_CODE.ALREADY_MEMBER) {
       return alert(JSON.stringify(error));
+    }
+    if (error.code === ERROR_CODE.UNAUTHORIZED) {
+      relogin();
+      joinChannel(channelId);
     }
   }
 };
@@ -107,7 +134,10 @@ export const createChannel = async (data) => {
     });
     return data;
   } catch (error) {
-    console.log(error);
+    if (error.code === ERROR_CODE.UNAUTHORIZED) {
+      relogin();
+      createChannel(data);
+    }
   }
 };
 
@@ -118,7 +148,10 @@ export const leaveChannel = async (channelId) => {
     });
     return data;
   } catch (error) {
-    console.log(error);
+    if (error.code === ERROR_CODE.UNAUTHORIZED) {
+      relogin();
+      leaveChannel(channelId);
+    }
   }
 };
 
@@ -137,7 +170,10 @@ export const updateChannel = async (channelId, data) => {
     });
     return data;
   } catch (error) {
-    console.log(error);
+    if (error.code === ERROR_CODE.UNAUTHORIZED) {
+      relogin();
+      updateChannel(channelId, data);
+    }
   }
 };
 
@@ -158,7 +194,10 @@ export const getMessages = async ({ channelId, lastMessageId }) => {
       hasNext: data.hasNext,
     };
   } catch (error) {
-    console.log(error);
+    if (error.code === ERROR_CODE.UNAUTHORIZED) {
+      relogin();
+      getMessages({ channelId, lastMessageId });
+    }
   }
 };
 
@@ -171,6 +210,9 @@ export const addMessageText = async (channelId, messageText) => {
     });
     return data;
   } catch (error) {
-    console.log(error);
+    if (error.code === ERROR_CODE.UNAUTHORIZED) {
+      relogin();
+      addMessageText(channelId, messageText);
+    }
   }
 };

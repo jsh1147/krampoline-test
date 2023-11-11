@@ -20,7 +20,11 @@ export default function EditSection() {
     queryFn: () => getPostReq(postId),
   });
 
-  const { mutate } = useMutation({ mutationFn: editPostReq });
+  const { mutate } = useMutation({
+    mutationFn: (edit) => {
+      return editPostReq(postId, edit);
+    },
+  });
 
   const { inputValue, handleInputChange } = useInputsState({
     title: data.data.data.title,
@@ -41,16 +45,23 @@ export default function EditSection() {
 
   const handleEditClick = () => {
     if (uid !== data.data.data.writerDTO.mentorId) {
-      toast("You are not the writer.");
+      toast("You are not the writer.", {
+        className: "bg-[#5A906E] text-[#F2F7F5]",
+      });
       navigate(`/mentoring/post/${postId}`);
     } else if (inputValue.title && inputValue.content) {
       mutate(inputValue, {
         onSuccess: () => {
-          toast("Successful edit.");
+          toast("Successful edit.", {
+            className: "bg-[#5A906E] text-[#F2F7F5]",
+          });
           navigate(`/mentoring/post/${postId}`);
         },
       });
-    } else toast("No title or content has been written.");
+    } else
+      toast("No title or content has been written.", {
+        className: "bg-[#5A906E] text-[#F2F7F5]",
+      });
   };
 
   const handleCancelClick = () => {

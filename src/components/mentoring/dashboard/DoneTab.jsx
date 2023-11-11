@@ -1,23 +1,22 @@
 import { useState, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { useAtomValue } from "jotai";
 
 import { getDoneConnectionsReq } from "../../../apis/mentoring/connetion";
 import { convertDateToAge } from "../../../utils/age";
+import { profileImageAtom } from "../../../store";
 
 import FlagTag from "../../common/FlagTag";
 import Tag from "../../common/Tag";
-import Fallback from "../../common/Fallback";
-import Loader from "../../common/Loader";
-import Error from "../../common/Error";
-import ProfileModal from "./ProfileModal";
+import CreateProfileModal from "./CreateProfileModal";
+import NotPost from "./NotPost";
 
 export default function DoneTab() {
   const navigate = useNavigate();
-
   const [isModal, setIsModal] = useState(false);
-
   const [modalUid, setModalUid] = useState(null);
+  const defaultImage = useAtomValue(profileImageAtom);
 
   const { data } = useQuery({
     queryKey: ["dones"],
@@ -69,8 +68,8 @@ export default function DoneTab() {
               >
                 <td className="p-2 text-left space-x-2 flex items-center">
                   <img
-                    className="inline w-8 rounded-full"
-                    src={post.mentor.profileImage}
+                    className="inline object-fill w-8 h-8 rounded-full"
+                    src={post.mentor.profileImage || defaultImage}
                     alt={`${post.mentor.mentorId} 프로필 이미지`}
                   ></img>
                   <div className="inline-flex flex-col">
@@ -121,8 +120,8 @@ export default function DoneTab() {
                   >
                     <td className="p-2 text-left space-x-2">
                       <img
-                        className="inline w-8 rounded-full"
-                        src={connection.mentee.profileImage}
+                        className="inline object-fill w-8 h-8 rounded-full"
+                        src={connection.mentee.profileImage || defaultImage}
                         alt={`${connection.mentee.menteeId} 프로필 이미지`}
                       ></img>
                       <span className="font-medium">
@@ -161,13 +160,12 @@ export default function DoneTab() {
           ))}
         </tbody>
       </table>
-      <Fallback Loader={Loader} Error={Error} errorMessage="ERROR">
-        <ProfileModal
-          isModal={isModal}
-          setIsModal={setIsModal}
-          uid={modalUid}
-        />
-      </Fallback>
+      {data.data.data.length === 0 && <NotPost />}
+      <CreateProfileModal
+        isModal={isModal}
+        setIsModal={setIsModal}
+        uid={modalUid}
+      />
     </>
   );
 }

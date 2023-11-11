@@ -1,5 +1,5 @@
 // isMock가 true일 경우 통신에 mock 데이터를 사용함
-export const isMock = true;
+export const isMock = false;
 
 const IMAGE_URL =
   "https://mblogthumb-phinf.pstatic.net/MjAyMDExMDFfMjIg/MDAxNjA0MjI4ODc1MDkx.itxFQbHQ_zAuNQJU7PCOlF0mmstYn2v4ZF4WygunqGIg.3jloNowx-eWU-ztCLACtYubVbATNdCFQLjgvYsynV1og.JPEG.gambasg/유튜브_기본프로필_주황.jpg?type=w400";
@@ -14,12 +14,13 @@ export const mockResponse = (data) => ({
 });
 
 export const userData = {
-  userId: 1,
+  id: 1,
   profileImage: IMAGE_URL,
-  name: "John Doe",
+  firstName: "John",
+  listName: "Doe",
   country: "US",
   role: "MENTOR",
-  interests: ["IDOL", "Game"],
+  categoryList: ["IDOL", "Game"],
   birthDate: "2002-10-30",
 };
 
@@ -51,13 +52,13 @@ export const postData = {
     country: "US",
     role: "MENTOR",
     interests: ["IDOL", "Game"],
-    birthDate: "2002-10-30",
+    // birthDate: "2002-10-30",
   },
   connections: [
     {
       connectionId: 1,
-      connectionState: "AWAIT",
-      menteeDTO: {
+      state: "AWAIT",
+      mentee: {
         menteeId: 2,
         name: "Jane",
         profileImage: IMAGE_URL,
@@ -69,8 +70,8 @@ export const postData = {
     },
     {
       connectionId: 2,
-      connectionState: "ACCEPT",
-      menteeDTO: {
+      state: "ACCEPT",
+      mentee: {
         menteeId: 3,
         name: "Miho",
         profileImage: IMAGE_URL,
@@ -82,8 +83,8 @@ export const postData = {
     },
     {
       connectionId: 3,
-      connectionState: "REFUSE",
-      menteeDTO: {
+      state: "REFUSE",
+      mentee: {
         menteeId: 4,
         name: "Michael",
         profileImage: IMAGE_URL,

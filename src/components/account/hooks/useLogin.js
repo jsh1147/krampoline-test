@@ -1,11 +1,8 @@
 import { RESET } from "jotai/utils";
 import { tokenAtom, authAtom, uidAtom } from "../../../store";
 import { useAtom } from "jotai";
-import { useNavigate } from "react-router-dom";
 
 const useLogin = () => {
-  const navaigate = useNavigate();
-
   const [token, setToken] = useAtom(tokenAtom);
   const [auth, setAuth] = useAtom(authAtom);
   const [uid, setUid] = useAtom(uidAtom);

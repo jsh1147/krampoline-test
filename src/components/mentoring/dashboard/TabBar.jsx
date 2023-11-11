@@ -6,14 +6,14 @@ export default function TabBar({ currentTab, setTab, postCounts }) {
   };
 
   return (
-    <div className="border-b-2 space-x-3">
+    <div className="flex">
       {Object.values(tabState).map((tab) => (
         <button
           key={`tab-${tab}`}
           className={`${
             tab === currentTab
               ? "text-orange border-orange border-b-2 "
-              : "text-green-700 "
+              : "text-green-700 border-b-2 "
           }px-2 py-2 inline-flex justify-center items-center space-x-1`}
           onClick={() => {
             handleTabClick(tab);
@@ -25,6 +25,7 @@ export default function TabBar({ currentTab, setTab, postCounts }) {
           </span>
         </button>
       ))}
+      <div className="w-full border-b-2"></div>
     </div>
   );
 }

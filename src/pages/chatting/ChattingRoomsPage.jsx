@@ -11,6 +11,7 @@ import Error from "../../components/common/Error";
 import Loader from "../../components/common/Loader";
 import { simpleUserInfo } from "../../apis/mypage";
 import { useTalkLogin } from "../../hooks/useTalkLogin";
+import ChannelInfoSkeleton from "../../components/chatting/skeleton/ChannelInfoSkeleton";
 
 const ChattingRoomsPage = () => {
   const setUserId = useSetAtom(userIdAtom);
@@ -42,10 +43,22 @@ const ChattingRoomsPage = () => {
               >
                 menu
               </span>
-              {isChannelDetailModalOpen && (
-                <ChannelSetting channelId={channelId} />
-              )}
-              <MessageList channelId={channelId} />
+              <Fallback
+                Loader={ChannelInfoSkeleton}
+                Error={Error}
+                errorMessage="Failed to load Channel Information"
+              >
+                {isChannelDetailModalOpen && (
+                  <ChannelSetting channelId={channelId} />
+                )}
+              </Fallback>
+              <Fallback
+                Loader={Loader}
+                Error={Error}
+                errorMessage="Failed to load messages"
+              >
+                <MessageList channelId={channelId} />
+              </Fallback>
               <MessageInput channelId={channelId} />
             </div>
           </div>

@@ -8,13 +8,12 @@ import {
   mutateRes,
 } from "./mock";
 
-// user쪽 getUser()에서 다루는 데이터가 달라 일단 별도로 작성
-export async function getUser() {
+export async function getUserInfoReq() {
   if (isMock) {
     await new Promise((resolve) => setTimeout(resolve, 500));
     return mockResponse(userData);
   } else {
-    return await instance.get(`/user`);
+    return await instance.get("/profiles/");
   }
 }
 
@@ -78,6 +77,8 @@ export async function donePostReq(postId) {
     await new Promise((resolve) => setTimeout(resolve, 500));
     return mockResponse(null);
   } else {
-    return await instance.patch(`/mentorings/${postId}/done`);
+    return await instance.patch(`/mentorings/${postId}/done`, {
+      mentorPostStateEnum: "DONE",
+    });
   }
 }

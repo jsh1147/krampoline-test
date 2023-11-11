@@ -8,35 +8,32 @@ import { useEffect, useRef } from "react";
 import { useInView } from "react-intersection-observer";
 
 const MessageList = ({ channelId }) => {
-  const userId = useAtomValue(userIdAtom);
   const scrollRef = useRef(null);
   const { ref, inView } = useInView();
+
+  const userId = useAtomValue(userIdAtom);
 
   useEffect(() => {
     scrollRef.current.scrollTop = scrollRef.current?.scrollHeight;
   }, [channelId]);
 
-  const { data, isLoading, isError, fetchPreviousPage, hasPreviousPage } =
-    useInfiniteQuery(
-      ["messages", channelId],
-      ({ pageParam = "" }) =>
-        getMessages({ channelId, lastMessageId: pageParam }),
-      {
-        getPreviousPageParam: (firstPage) => {
-          if (!firstPage) return undefined;
-          if (!firstPage?.hasNext) return undefined;
-          const firstMessageId = firstPage.messages[0].id;
-          return firstMessageId;
-        },
-      }
-    );
+  const { data, fetchPreviousPage, hasPreviousPage } = useInfiniteQuery(
+    ["messages", channelId],
+    ({ pageParam = "" }) =>
+      getMessages({ channelId, lastMessageId: pageParam }),
+    {
+      getPreviousPageParam: (firstPage) => {
+        if (!firstPage) return undefined;
+        if (!firstPage?.hasNext) return undefined;
+        const firstMessageId = firstPage.messages[0].id;
+        return firstMessageId;
+      },
+    }
+  );
 
   useEffect(() => {
     if (inView && hasPreviousPage) fetchPreviousPage();
   }, [inView, fetchPreviousPage, hasPreviousPage]);
-
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error!</div>;
 
   return (
     <div

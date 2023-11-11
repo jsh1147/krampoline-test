@@ -1,17 +1,22 @@
 import { Link } from "react-router-dom";
+import { useAtomValue } from "jotai";
+
+import { profileImageAtom } from "../../../store";
 
 import Tag from "../../../components/common/Tag";
 import FlagTag from "../../../components/common/FlagTag";
 
 export default function PostCard({ post }) {
+  const defaultImage = useAtomValue(profileImageAtom);
+
   return (
     <Link
       className="w-full h-fit border bg-white flex"
       to={`/mentoring/post/${post.postId}`}
     >
       <img
-        className="w-56 p-8 rounded-full"
-        src={post.writerDTO.profileImage}
+        className="flex-shrink-0 object-fill w-56 h-56 p-8 rounded-full"
+        src={post.writerDTO.profileImage || defaultImage}
         alt={`글${post.postId} 작성자 프로필 이미지`}
       ></img>
       <div className="w-full px-4 flex flex-col justify-center space-y-3">

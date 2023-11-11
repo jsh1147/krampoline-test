@@ -19,7 +19,17 @@ const VideoCard = ({ video, className, ...props }) => {
       <p className="mt-2 mb-2 text-gray-500 font-bold text-sm">
         {video.videoTitleEng}
       </p>
-      <Tag>{video.interests}</Tag>
+      <div className="flex justify-between">
+        <Tag>{video.interests}</Tag>
+        {video.views ? (
+          <p>
+            <span className="material-symbols-outlined relative -bottom-1">
+              visibility
+            </span>{" "}
+            {video.views}
+          </p>
+        ) : null}
+      </div>
     </Card>
   );
 };

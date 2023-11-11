@@ -7,9 +7,11 @@ import { useAtomValue } from "jotai";
 import { userIdAtom } from "../../../../store/chatting/chatting";
 
 const ChannelInfo = ({ channelInfo, handleEdit }) => {
-  const userId = useAtomValue(userIdAtom);
   const navigate = useNavigate();
+
+  const userId = useAtomValue(userIdAtom);
   const isOwner = channelInfo.ownerId === userId;
+
   const { mutate: leaveChannelMutate } = useMutation(
     () => leaveChannel(channelInfo.id),
     {
@@ -61,4 +63,5 @@ const ChannelInfo = ({ channelInfo, handleEdit }) => {
     </div>
   );
 };
+
 export default ChannelInfo;

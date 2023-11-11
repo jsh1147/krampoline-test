@@ -1,17 +1,23 @@
+import { useAtomValue } from "jotai";
+
+import { profileImageAtom } from "../../../store";
 import { convertDateToAge } from "../../../utils/age";
 
 import FlagTag from "../../common/FlagTag";
 import Tag from "../../common/Tag";
+import NotPost from "./NotPost";
 
 export default function PostDoneSide({ data }) {
+  const defaultImage = useAtomValue(profileImageAtom);
+
   return (
     <div className="flex justify-center">
       <div className="w-full max-w-[58rem] m-12 flex flex-col">
         {/* 상단 - 멘토 정보 및 멘토링 제목 */}
         <div className="w-full h-fit flex">
           <img
-            className="w-56 p-8 rounded-full"
-            src={data.writerDTO.profileImage}
+            className="flex-shrink-0 object-fill w-56 h-56 p-8 rounded-full"
+            src={data.writerDTO.profileImage || defaultImage}
             alt="작성자 프로필 이미지"
           ></img>
           <div className="w-full px-4 flex flex-col justify-center space-y-3">
@@ -47,34 +53,33 @@ export default function PostDoneSide({ data }) {
               <tr key={`mentee-${index}`} className="bg-white border">
                 <td className="p-2 text-left space-x-2">
                   <img
-                    className="inline w-8 rounded-full"
-                    src={connection.menteeDTO.profileImage}
-                    alt={`${connection.menteeDTO.menteeId} 프로필 이미지`}
+                    className="inline object-fill w-8 h-8 rounded-full"
+                    src={connection.mentee.profileImage || defaultImage}
+                    alt={`${connection.mentee.menteeId} 프로필 이미지`}
                   ></img>
-                  <span className="font-medium">
-                    {connection.menteeDTO.name}
-                  </span>
+                  <span className="font-medium">{connection.mentee.name}</span>
                 </td>
                 <td>
-                  <FlagTag>{connection.menteeDTO.country}</FlagTag>
+                  <FlagTag>{connection.mentee.country}</FlagTag>
                 </td>
                 <td className="space-x-2">
-                  {connection.menteeDTO.interests.map((interest, index) => (
+                  {connection.mentee.interests.map((interest, index) => (
                     <Tag key={`menteetag-${index}`}>{interest}</Tag>
                   ))}
                 </td>
                 <td>
                   <Tag>
-                    {convertDateToAge(connection.menteeDTO.birthDate) + ""}
+                    {convertDateToAge(connection.mentee.birthDate) + ""}
                   </Tag>
                 </td>
                 <td>
-                  <Tag>{connection.connectionState}</Tag>
+                  <Tag>{connection.state}</Tag>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+        {data.connections.length === 0 && <NotPost />}
       </div>
     </div>
   );

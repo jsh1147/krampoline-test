@@ -22,3 +22,5 @@ export const profileImageAtom = atom(
 );
 
 export const userProfileAtom = atom(null);
+
+export const errorAtom = atom(null);
